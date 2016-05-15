@@ -1,32 +1,32 @@
 .outer-wrapper {
-	overflow: hidden;
+  overflow: hidden;
 }
 
 .side-panel {
-	background-image: url("./../images/side.png");
-	position: fixed;
-	min-height: 100vh;
-	min-width: 200px;
+  background-image: url("./../images/side.png");
+  position: fixed;
+  min-height: 100vh;
+  min-width: 200px;
 
-	h1 {
-		color: #eee;
-	}
+  h1 {
+    color: #eee;
+  }
 
-	h3 {
-		margin-top: 25px;
-		color: #eee;
-	}
+  h3 {
+    margin-top: 25px;
+    color: #eee;
+  }
 
-	.elements-container {
-		background-color: #fff;
-		border-radius: 5px;
-		height: 150px;
-		margin-top: 15px;
-	}
-
-	#run { //temporary button, should be removed
-		margin-top: 15px;
-	}
+  .elements-container {
+    background-color: #fff;
+    border-radius: 5px;
+    height: 150px;
+    margin-top: 15px;
+  }
+  
+  #run { //temporary button, should be removed
+    margin-top: 15px;
+  }
 }
 
 .content {
@@ -34,23 +34,36 @@
   min-height: 100vh;
 
   .circuit-outer {
-	  width: 90%;
-	  height: 90vh;
-	  margin: 5vh 5%;
+    width: 90%;
+    height: 90vh;
+    margin: 5vh 5%;
 
-		.circuit {
-			height: 100%;
-			position: relative;
-			overflow: hidden;
-			background-color: #fff;
-		}
- 	}
+    .circuit {
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      background-color: #fff;
+    }
+  }
 
-	.element {
-		position: absolute;
-		border: 1px solid #111;
-		width: 50px;
-		height: 35px;
-		cursor: pointer;
-	}
+  .element {
+    position: absolute;
+    border: 1px solid #111;
+    width: 50px;
+    height: 35px;
+    cursor: pointer;
+    background-color: #fafafa;
+    z-index: 99;
+    &.el-ind {
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+    }
+    &.el-gen.positive {
+      background-color: #F51212;
+    }
+    &el-ind.positive {
+      background-color: #FFFF00;
+    }
+  }
 }
