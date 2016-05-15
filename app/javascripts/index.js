@@ -1,43 +1,8 @@
 import plumb from 'jsplumb';
+import { AndElement, Generator, Indicator } from './elements.js';
 
 jsPlumb.ready(() => {
   jsPlumb.setContainer("circuit");
-
-  const common = {
-    connector: ["Flowchart"],
-    paintStyle: { fillStyle: "#445566", radius: 5 },
-    hoverPaintStyle:{ fillStyle: "red" },
-    connectorHoverStyle:{ strokeStyle:"red" }
-  };
-
-  jsPlumb.addEndpoint("el-1", {
-    anchor: "Right",
-    isSource: true
-  }, common);
-  jsPlumb.addEndpoint("el-1", {
-    anchor: [0, 0.75, -1, 0],
-    isTarget: true
-  }, common);
-  jsPlumb.addEndpoint("el-1", {
-    anchor: [0, 0.25, -1, 0],
-    isTarget: true
-  }, common);
-  jsPlumb.addEndpoint("el-4", {
-    anchor: "Left",
-    isTarget: true
-  }, common);
-  /*jsPlumb.connect({
-    connector: ["Flowchart"],
-    source: "el-1",
-    target: "el-4",
-    anchor: ["Right", "Left"],
-    endpoint: [ "Dot", { width: 2, height: 2 } ],
-    paintStyle: { strokeStyle: "gray", lineWidth: 1 },
-    endpointStyle: { fillStyle: "lightgray", outlineColor: "gray", radius: 5 },
-    endpointHoverStyles:[ { fillStyle:"red" }, { fillStyle:"red" } ]
-  });*/
-  jsPlumb.draggable("el-1", { containment: true } );
-  jsPlumb.draggable("el-4", { containment: true } );
 
   jsPlumb.bind("connection", (info) => {
     if (info.sourceId === info.targetId) {
@@ -47,6 +12,43 @@ jsPlumb.ready(() => {
 });
 
 $(document).ready(() => {
+  // adding elements
+  let elementId = 0;
+
+  $('#add-and').click(() => {
+    const id = `el-${elementId}`;
+    $('.circuit').append($('<div>And</div>').addClass(`element el-and`).attr('id', id));
+    new AndElement(id);
+    elementId++;
+  });
+
+  $('#add-gen').click(() => {
+    const id = `el-${elementId}`;
+    $('.circuit').append($('<div>0</div>').addClass(`element el-gen`).attr('id', id));
+    new Generator(id);
+    elementId++;
+  });
+
+  $('#add-ind').click(() => {
+    const id = `el-${elementId}`;
+    $('.circuit').append($('<div>0</div>').addClass(`element el-ind`).attr('id', id));
+    new Indicator(id);
+    elementId++;
+  });
+
+  // changing value of Generator
+  $('.circuit').on('mouseup', '.el-gen', function() {
+    if (!$(this).hasClass('jsplumb-drag')) {
+      if ($(this).hasClass('positive')) {
+        $(this).removeClass('positive');
+      }
+      else {
+        $(this).addClass('positive');
+      }
+    }
+  });
+
+  // ...
   $('#run').click(() => { //temporary button, should be removed
     jsPlumb.select().each((connection) => {
        console.log(connection);
