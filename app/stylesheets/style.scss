@@ -23,7 +23,7 @@
     height: 150px;
     margin-top: 15px;
   }
-  
+
   #run { //temporary button, should be removed
     margin-top: 15px;
   }
@@ -54,13 +54,14 @@
     cursor: pointer;
     background-color: #fafafa;
     z-index: 99;
+    display: flex;
+    span {
+      margin: auto;
+    }
     &.el-ind {
       width: 40px;
       height: 40px;
       border-radius: 100%;
-    }
-    &.el-gen.positive {
-      background-color: #F51212;
     }
     &el-ind.positive {
       background-color: #FFFF00;
