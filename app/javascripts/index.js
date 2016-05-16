@@ -1,5 +1,5 @@
 import plumb from 'jsplumb';
-import { AndElement, Generator, Indicator } from './elements.js';
+import { AndElement, OrElement, XorElement, NotElement, Generator, Indicator } from './elements.js';
 
 jsPlumb.ready(() => {
   jsPlumb.setContainer("circuit");
@@ -17,35 +17,44 @@ $(document).ready(() => {
 
   $('#add-and').click(() => {
     const id = `el-${elementId}`;
-    $('.circuit').append($('<div>And</div>').addClass(`element el-and`).attr('id', id));
+    $('.circuit').append($('<div><span>And</span></div>').addClass(`element el-and`).attr('id', id));
     new AndElement(id);
+    elementId++;
+  });
+
+  $('#add-or').click(() => {
+    const id = `el-${elementId}`;
+    $('.circuit').append($('<div><span>Or</span></div>').addClass(`element el-or`).attr('id', id));
+    new OrElement(id);
+    elementId++;
+  });
+
+  $('#add-xor').click(() => {
+    const id = `el-${elementId}`;
+    $('.circuit').append($('<div><span>Xor</span></div>').addClass(`element el-xor`).attr('id', id));
+    new XorElement(id);
+    elementId++;
+  });
+
+  $('#add-not').click(() => {
+    const id = `el-${elementId}`;
+    $('.circuit').append($('<div><span>Not</span></div>').addClass(`element el-not`).attr('id', id));
+    new NotElement(id);
     elementId++;
   });
 
   $('#add-gen').click(() => {
     const id = `el-${elementId}`;
-    $('.circuit').append($('<div>0</div>').addClass(`element el-gen`).attr('id', id));
+    $('.circuit').append($('<div></div>').addClass(`element el-gen`).attr('id', id));
     new Generator(id);
     elementId++;
   });
 
   $('#add-ind').click(() => {
     const id = `el-${elementId}`;
-    $('.circuit').append($('<div>0</div>').addClass(`element el-ind`).attr('id', id));
+    $('.circuit').append($('<div><span>0</span></div>').addClass(`element el-ind`).attr('id', id));
     new Indicator(id);
     elementId++;
-  });
-
-  // changing value of Generator
-  $('.circuit').on('mouseup', '.el-gen', function() {
-    if (!$(this).hasClass('jsplumb-drag')) {
-      if ($(this).hasClass('positive')) {
-        $(this).removeClass('positive');
-      }
-      else {
-        $(this).addClass('positive');
-      }
-    }
   });
 
   // ...
