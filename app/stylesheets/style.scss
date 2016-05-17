@@ -68,3 +68,18 @@
     }
   }
 }
+
+.context-menu {
+  position: fixed;
+  padding: 5px;
+  border: solid 1px #dfdfdf;
+  box-shadow: 1px 1px 2px #cfcfcf;
+  z-index: 999;
+  background-color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  &:hover {
+    color: #fff;
+    background-color: #0066aa;
+  }
+}
