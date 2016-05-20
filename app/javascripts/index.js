@@ -20,37 +20,102 @@ jsPlumb.ready(() => {
 
 $(document).ready(() => {
   // adding elements
-  $('#add-and').click(() => {
+  $('.add-el').draggable({
+    appendTo: 'body',
+    containment: 'outer-wrapper',
+    helper: function() {
+      return $(this).clone().css('height', this.clientHeight).css('width', this.clientWidth);
+    }
+  });
+
+  $('.circuit').droppable({
+    drop: function(e, ui) {
+      const id = jsPlumbUtil.uuid();
+
+      switch(ui.draggable.context.id) {
+        case 'and-drag': {
+          $('.circuit').append(
+            $('<div><span>And</span></div>').addClass(`element el-and`).attr('id', id)
+              .css('left', ui.offset.left - $(this).offset().left).css('top', ui.offset.top - $(this).offset().top)
+          );
+          elements[id] = new AndElement(id);
+          break;
+        }
+        case 'or-drag': {
+          $('.circuit').append(
+            $('<div><span>Or</span></div>').addClass(`element el-or`).attr('id', id)
+              .css('left', ui.offset.left - $(this).offset().left).css('top', ui.offset.top - $(this).offset().top)
+          );
+          elements[id] = new OrElement(id);
+          break;
+        }
+        case 'not-drag': {
+          $('.circuit').append(
+            $('<div><span>Not</span></div>').addClass(`element el-not`).attr('id', id)
+              .css('left', ui.offset.left - $(this).offset().left).css('top', ui.offset.top - $(this).offset().top)
+          );
+          elements[id] = new NotElement(id);
+          break;
+        }
+        case 'xor-drag': {
+          $('.circuit').append(
+            $('<div><span>Xor</span></div>').addClass(`element el-xor`).attr('id', id)
+              .css('left', ui.offset.left - $(this).offset().left).css('top', ui.offset.top - $(this).offset().top)
+          );
+          elements[id] = new XorElement(id);
+          break;
+        }
+        case 'gen-drag': {
+          $('.circuit').append(
+            $('<div></div>').addClass(`element el-gen`).attr('id', id)
+              .css('left', ui.offset.left - $(this).offset().left).css('top', ui.offset.top - $(this).offset().top)
+          );
+          elements[id] = new Generator(id);
+          break;
+        }
+        case 'ind-drag': {
+          $('.circuit').append(
+            $('<div><span>0</span></div>').addClass(`element el-ind`).attr('id', id)
+              .css('left', ui.offset.left - $(this).offset().left).css('top', ui.offset.top - $(this).offset().top)
+          );
+          elements[id] = new Indicator(id);
+          break;
+        }
+      }
+    }
+  });
+
+  $('#and-drag').dblclick(() => {
     const id = jsPlumbUtil.uuid();
     $('.circuit').append($('<div><span>And</span></div>').addClass(`element el-and`).attr('id', id));
     elements[id] = new AndElement(id);
   });
 
-  $('#add-or').click(() => {
+  $('#or-drag').dblclick(() => {
     const id = jsPlumbUtil.uuid();
     $('.circuit').append($('<div><span>Or</span></div>').addClass(`element el-or`).attr('id', id));
     elements[id] = new OrElement(id);
   });
 
-  $('#add-xor').click(() => {
+  $('#xor-drag').dblclick(() => {
     const id = jsPlumbUtil.uuid();
     $('.circuit').append($('<div><span>Xor</span></div>').addClass(`element el-xor`).attr('id', id));
     elements[id] = new XorElement(id);
   });
 
-  $('#add-not').click(() => {
+  $('#not-drag').dblclick(() => {
     const id = jsPlumbUtil.uuid();
     $('.circuit').append($('<div><span>Not</span></div>').addClass(`element el-not`).attr('id', id));
     elements[id] = new NotElement(id);
   });
 
-  $('#add-gen').click(() => {
+  $('#gen-drag').dblclick(() => {
     const id = jsPlumbUtil.uuid();
     $('.circuit').append($('<div></div>').addClass(`element el-gen`).attr('id', id));
     elements[id] = new Generator(id);
   });
 
-  $('#add-ind').click(() => {
+  $('#ind-drag').dblclick(() => {
     const id = jsPlumbUtil.uuid();
     $('.circuit').append($('<div><span>0</span></div>').addClass(`element el-ind`).attr('id', id));
     elements[id] = new Indicator(id);
