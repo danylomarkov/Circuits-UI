@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Circuits UI</title>
+  <script type="text/javascript" src="bundle.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="outer-wrapper">
+        <div class="col-xs-offset-3 col-xs-6">
+            <form>
+                <div class="form-group test">
+                    <fieldset>
+                        <legend>Test1</legend>
+                        <textarea class="test-request"></textarea>
+                        <p class="test-result"></p>
+                        <button type="button" class="btn btn-primary pull-right send-test">Send</button>
+                    </fieldset>
+                </div>
+                <div class="form-group test">
+                    <fieldset>
+                        <legend>Test2</legend>
+                        <textarea class="test-request"></textarea>
+                        <p class="test-result"></p>
+                        <button type="button" class="btn btn-primary pull-right send-test">Send</button>
+                    </fieldset>
+                </div>
+                <div class="form-group test">
+                    <fieldset>
+                        <legend>Test3</legend>
+                        <textarea class="test-request"></textarea>
+                        <p class="test-result"></p>
+                        <button type="button" class="btn btn-primary pull-right send-test">Send</button>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade error-modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Error!</h4>
+          </div>
+          <div class="modal-body">
+              <div><b class="error-title"></b></div>
+              <!-- <div><u>Error</u>:<br /><p class="exception-type"></p></div>
+              <div><u>StackTrace</u>:<br /><p class="stack-trace"></p></div> -->
+              <div><u>Message</u>:<br /><p class="message"></p></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</body>
+</html>

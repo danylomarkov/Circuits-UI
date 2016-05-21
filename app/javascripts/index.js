@@ -18,7 +18,7 @@ jsPlumb.ready(() => {
   });
 });
 
-$(document).ready(() => {
+$(() => {
   // adding elements
   $('.add-el').draggable({
     appendTo: 'body',
@@ -136,6 +136,9 @@ $(document).ready(() => {
     jsPlumb.select().each((connection) => {
        console.log(connection);
     });
+  });
+  $('#api-tests').click(() => {
+      $(location).attr('href', 'api.html');
   });
 });
 

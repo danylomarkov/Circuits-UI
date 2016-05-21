@@ -1,6 +1,9 @@
 window.jQuery = window.$ = require("jquery");
-require('jquery-ui');
+window._ = require("underscore");
+require("jquery-ui");
 require("bootstrap-sass");
+require("backbone");
 
 require("./../stylesheets/application.scss");
 require("./index.js");
+require("./APITestPage.js");
