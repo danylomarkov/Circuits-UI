@@ -6,4 +6,4 @@ require("backbone");
 
 require("./../stylesheets/application.scss");
 require("./index.js");
-require("./APITestPage.js");
+require("./API/APITestPage.js");

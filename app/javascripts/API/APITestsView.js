@@ -1,5 +1,5 @@
 import { APITestView } from './APITestView.js';
-import { ErrorModalView } from './ErrorModalView.js';
+import { ErrorModalView } from '../ErrorModalView.js';
 
 export class APITestsView extends Backbone.View {
     constructor(options) {
