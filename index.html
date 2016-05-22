@@ -6,22 +6,51 @@
 </head>
 <body>
   <div class="outer-wrapper">
-    <div class="col-md-2 side-panel">
-      <h1 class="text-center">Circuits <em>UI</em></h1>
+    <div class="side-panel">
+      <h1 class="text-center">Circuits&nbsp;<span>UI</span></h1>
       <div class="elements">
-        <h3 class="text-center">Logical elements:</h3>
         <div class="elements-container">
           <div class="create-element">
-            <div class="element-image" id="element-and">
-
+            <div class="element-description">
+              Logical elements
+            </div>
+            <div class="elements-section">
+              <div class="add-el-container">
+                <div class="add-el" id="and-drag"><span>And</span></div>
+              </div>
+              <div class="add-el-container">
+                <div class="add-el" id="or-drag"><span>Or</span></div>
+              </div>
+              <div class="add-el-container">
+                <div class="add-el" id="not-drag"><span>Not</span></div>
+              </div>
+              <div class="add-el-container">
+                <div class="add-el" id="xor-drag"><span>Xor</span></div>
+              </div>
             </div>
             <div class="element-description">
-              <div class="add-el" id="and-drag"><span>And</span></div>
-              <div class="add-el" id="or-drag"><span>Or</span></div>
-              <div class="add-el" id="not-drag"><span>Not</span></div>
-              <div class="add-el" id="xor-drag"><span>Xor</span></div>
-              <div class="add-el" id="gen-drag"><span>Gen</span></div>
-              <div class="add-el" id="ind-drag"><span>Ind</span></div>
+              Coupler
+            </div>
+            <div class="elements-section">
+              <div class="add-el-container">
+                <div class="add-el el-coup" id="coup-drag"></div>
+              </div>
+            </div>
+            <div class="element-description">
+              Input
+            </div>
+            <div class="elements-section">
+              <div class="add-el-container">
+                <div class="add-el slider" id="gen-drag"></div>
+              </div>
+            </div>
+            <div class="element-description">
+              Output
+            </div>
+            <div class="elements-section">
+              <div class="add-el-container">
+                <div class="add-el el-ind" id="ind-drag"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -29,7 +58,7 @@
       <button class="btn btn-lg pull-right" id="run">Run</button>
       <button class="btn btn-lg pull-right" id="api-tests">API - tests</button>
     </div>
-    <div class="col-md-10 col-md-offset-2 content">
+    <div class="content">
       <div class="circuit-outer">
         <div class="circuit">
         </div>

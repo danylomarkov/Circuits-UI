@@ -2,5 +2,15 @@ $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
 @import "bootstrap-sass/assets/stylesheets/bootstrap";
 
+@font-face {
+  font-family: PlayfairDisplay;
+  src: url('./../fonts/PlayfairDisplay-Regular.otf');
+}
+
+/*@font-face {
+  font-family: HelveticaNeueLight;
+  src: url('/fonts/HelveticaNeueCyrLight.otf');
+}*/
+
 @import "style.scss";
 @import "toggle.scss";

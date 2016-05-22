@@ -15,7 +15,12 @@ class Element {
 }
 
 export class AndElement extends Element {
-  constructor(id) {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>And</span></div>').addClass(`element el-and`).attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
     super(id);
 
     // input
@@ -36,7 +41,12 @@ export class AndElement extends Element {
 }
 
 export class OrElement extends Element {
-  constructor(id) {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>Or</span></div>').addClass(`element el-or`).attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
     super(id);
 
     // input
@@ -57,7 +67,12 @@ export class OrElement extends Element {
 }
 
 export class XorElement extends Element {
-  constructor(id) {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>Xor</span></div>').addClass(`element el-xor`).attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
     super(id);
 
     // input
@@ -78,7 +93,12 @@ export class XorElement extends Element {
 }
 
 export class NotElement extends Element {
-  constructor(id) {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>Not</span></div>').addClass(`element el-not`).attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
     super(id);
 
     // input
@@ -95,7 +115,12 @@ export class NotElement extends Element {
 }
 
 export class Generator extends Element {
-  constructor(id) {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div></div>').addClass(`element el-gen`).attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
     super(id);
 
     jsPlumb.addEndpoint(id, {
@@ -109,12 +134,42 @@ export class Generator extends Element {
 }
 
 export class Indicator extends Element {
-  constructor(id) {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div></div>').addClass(`element el-ind`).attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
     super(id);
 
     jsPlumb.addEndpoint(id, {
       anchor: "Left",
       isTarget: true
+    }, common);
+  }
+}
+
+export class Coupler extends Element {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div></div>').addClass(`element el-coup`).attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
+    super(id);
+
+    jsPlumb.addEndpoint(id, {
+      anchor: "Left",
+      isTarget: true
+    }, common);
+
+    jsPlumb.addEndpoint(id, {
+      anchor: [1, 0.75, 1, 0],
+      isSource: true
+    }, common);
+    jsPlumb.addEndpoint(id, {
+      anchor: [1, 0.25, 1, 0],
+      isSource: true
     }, common);
   }
 }
