@@ -1,10 +1,9 @@
 import plumb from 'jsplumb';
-import { IdManager } from '../../IdManager.js';
-import { AndElement, OrElement, XorElement, NotElement, Generator, Indicator, Coupler } from '../../elements.js';
-// import { ElementsModel } from '../models/ElementsModel.js';
+import { AndElement, OrElement, XorElement, NotElement, Generator, Indicator, Coupler } from './Elements.js';
+import { ElementType } from '../../ElementType.js';
 
 const contextMenu = (type, position) =>
-  `<div class='context-menu ${type}' style="top: ${position.top}px; left: ${position.left}px">
+  `<div class='context-menu' style="top: ${position.top}px; left: ${position.left}px">
     <span>Delete ${type}</span>
   </div>`;
 
@@ -54,13 +53,13 @@ export class CircuitPainter extends Backbone.View {
     }
 
     openConnectionContextMenu(e, connection) {
-        $('body').append(contextMenu('connection', { top: e.clientX, left: e.clientY }));
+        $('body').append(contextMenu('connection', { left: e.clientX, top: e.clientY }));
         $('.context-menu').on('click', () => this.deleteConnection(connection));
     }
 
     deleteElement(id) {
         jsPlumb.remove(id);
-        this.elements.remove(id);
+        delete this.elements[id];
         this.closeContextMenu();
     }
 
@@ -79,15 +78,43 @@ export class CircuitPainter extends Backbone.View {
         this.openElementContextMenu(e);
     }
 
+    getJSON() {
+        var result = {
+            elements: [],
+            connections: []
+        }
+        jsPlumb.select().each((connection) => {
+            result.connections.push(connection.getParameters());
+        });
+        _.each(this.elements, (elem) => {
+            var parameters = {
+                id: elem.id,
+                type: elem.type
+            }
+            if(elem.type === ElementType.OnePortGenerator) {
+                parameters.value = elem.getValue();
+            }
+            result.elements.push(parameters);
+        });
+        return result;
+    }
+
+    applyResult(results) {
+        var that = this;
+        _.each(results, function (item) {
+            that.elements[item.id].setValue(item.values[0]);
+        });
+    }
+
     createElement($target, ui) {
-        const dataId = IdManager.nextNumber();
+        const id = jsPlumbUtil.uuid();
         const position = {
             top: ui.offset.top - $target.offset().top,
             left: ui.offset.left - $target.offset().left
         };
         switch(ui.draggable.context.id) {
             case 'and-drag': {
-                this.elements[id] = new AndElement(id, dataId, position);
+                this.elements[id] = new AndElement(id, position);
                 break;
             }
             case 'or-drag': {
