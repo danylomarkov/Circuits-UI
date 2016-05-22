@@ -5,5 +5,5 @@ require("bootstrap-sass");
 require("backbone");
 
 require("./../stylesheets/application.scss");
-require("./index.js");
+require("./main/index.js");
 require("./API/APITestPage.js");
