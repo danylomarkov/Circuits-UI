@@ -11,6 +11,7 @@ module.exports = {
       { test: /\.scss$/,      loaders: ["style", "css", "sass"] },
 	    { test: /\.html/,       loader: 'file?name=[name].[ext]' },
       { test: /\.(jpg|png)$/, loader: 'url-loader?limit=100000' },
+      { test: /\.otf/,        loader: "file-loader" },
 	    {
         test: /\.js?$/,
         exclude: /node_modules/,

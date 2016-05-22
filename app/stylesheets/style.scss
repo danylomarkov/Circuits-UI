@@ -5,16 +5,26 @@ html, body {
 
 .outer-wrapper {
   overflow: hidden;
+  display: flex;
 }
 
 .side-panel {
-  background-image: url("./../images/side.png");
-  position: fixed;
+  background-color: #222;
   min-height: 100vh;
-  min-width: 200px;
+  flex-basis: 250px;
+  flex-grow: 0;
+  flex-shrink: 1;
+  padding: 10px;
 
   h1 {
-    color: #eee;
+    color: #fafafa;
+    font-family: PlayfairDisplay;
+    font-weight: bold;
+    font-size: 32px;
+    span {
+      font-style: italic;
+      color: #55D456;
+    }
   }
 
   h3 {
@@ -24,8 +34,7 @@ html, body {
 
   .elements-container {
     background-color: #fff;
-    border-radius: 5px;
-    margin-top: 15px;
+    margin-top: 40px;
   }
 
   #run { //temporary button, should be removed
@@ -34,20 +43,22 @@ html, body {
 }
 
 .content {
-  background-color: #101010;
+  background-color: #222;
   min-height: 100vh;
-  position: fixed;
+  flex-grow: 1;
+  flex-shrink: 1;
 
   .circuit-outer {
-    width: 90%;
-    height: 90vh;
-    margin: 5vh 5%;
+    width: 98%;
+    height: 98vh;
+    margin: 1vh 1%;
 
     .circuit {
       height: 100%;
       position: relative;
       overflow: hidden;
-      background-color: #fff;
+      background-image: url("./../images/circuit_bg.jpg");
+      background-repeat: repeat;
     }
   }
 
@@ -56,22 +67,42 @@ html, body {
     border: 1px solid #111;
     width: 50px;
     height: 35px;
-    cursor: pointer;
+    cursor: move;
     background-color: #fafafa;
     z-index: 99;
     display: flex;
     span {
       margin: auto;
     }
-    &.el-ind {
-      width: 40px;
-      height: 40px;
-      border-radius: 100%;
-    }
+    // &.
+    // }
     &el-ind.positive {
       background-color: #FFFF00;
     }
   }
+
+  .jsplumb-endpoint {
+    cursor: pointer;
+  }
+}
+
+.content .element.el-ind, .add-el.el-ind {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  &.switched {
+    border: 0;
+    background-color: #55D456;
+    box-shadow: rgba(85, 212, 86, 0.9) 0px 0px 10px,
+                rgba(85, 212, 86, 0.8) 0px 0px 30px,
+                rgba(85, 212, 86, 0.7) 0px 0px 50px,
+                rgba(85, 212, 86, 0.6) 0px 0px 70px;
+  }
+}
+
+.content .element.el-coup, .add-el.el-coup {
+  border-top-left-radius: 100%;
+  border-bottom-left-radius: 100%;
 }
 
 .context-menu {
@@ -85,37 +116,60 @@ html, body {
   cursor: pointer;
   &:hover {
     color: #fff;
-    background-color: #0066aa;
+    background-color: #222;
   }
 }
 
 .element-description {
-  // display: flex;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+}
+
+.elements-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
+  padding: 10px;
+}
+
+.add-el-container {
+  padding: 10px;
 }
 
 .add-el {
   display: inline-block;
-  width: 35%;
-  padding: 5px;
+  width: 50px;
+  height: 35px;
+  cursor: move;
   border: solid 1px #dfdfdf;
   box-shadow: 1px 1px 2px #cfcfcf;
-  z-index: 999;
-  background-color: #fff;
-  cursor: pointer;
+  background-color: #fafafa;
   text-align: center;
-  margin: 10px;
+  display: flex;
+  &.slider {
+    position: relative;
+    transition: none;
+    cursor: move;
+  }
+  span {
+    margin: auto;
+  }
   &.ui-draggable-dragging {
     cursor: move;
-    margin: 0;
+    //margin: 0;
+    z-index: 999;
   }
 }
 
 .test-result {
-    border: solid #A9A9A9 1px;
-    width: 100%;
-    min-height: 40px;
+  border: solid #A9A9A9 1px;
+  width: 100%;
+  min-height: 40px;
 }
 
 .test-request {
-    width: 100%;
+  width: 100%;
 }
