@@ -26,16 +26,34 @@ export class AndElement extends Element {
     // input
     jsPlumb.addEndpoint(id, {
       anchor: "Right",
-      isSource: true
+      isSource: true,
+      parameters: {
+        source: {
+          id,
+          port: 1
+        }
+      }
     }, common);
     // outputs
     jsPlumb.addEndpoint(id, {
-      anchor: [0, 0.75, -1, 0],
-      isTarget: true
+      anchor: [0, 0.25, -1, 0],
+      isTarget: true,
+      parameters: {
+        target: {
+          id,
+          port: 1
+        }
+      }
     }, common);
     jsPlumb.addEndpoint(id, {
-      anchor: [0, 0.25, -1, 0],
-      isTarget: true
+      anchor: [0, 0.75, -1, 0],
+      isTarget: true,
+      parameters: {
+        target: {
+          id,
+          port: 2
+        }
+      }
     }, common);
   }
 }
@@ -52,16 +70,34 @@ export class OrElement extends Element {
     // input
     jsPlumb.addEndpoint(id, {
       anchor: "Right",
-      isSource: true
+      isSource: true,
+      parameters: {
+        source: {
+          id,
+          port: 1
+        }
+      }
     }, common);
     // outputs
     jsPlumb.addEndpoint(id, {
-      anchor: [0, 0.75, -1, 0],
-      isTarget: true
+      anchor: [0, 0.25, -1, 0],
+      isTarget: true,
+      parameters: {
+        target: {
+          id,
+          port: 1
+        }
+      }
     }, common);
     jsPlumb.addEndpoint(id, {
-      anchor: [0, 0.25, -1, 0],
-      isTarget: true
+      anchor: [0, 0.75, -1, 0],
+      isTarget: true,
+      parameters: {
+        target: {
+          id,
+          port: 2
+        }
+      }
     }, common);
   }
 }
@@ -78,16 +114,34 @@ export class XorElement extends Element {
     // input
     jsPlumb.addEndpoint(id, {
       anchor: "Right",
-      isSource: true
+      isSource: true,
+      parameters: {
+        source: {
+          id,
+          port: 1
+        }
+      }
     }, common);
     // outputs
     jsPlumb.addEndpoint(id, {
-      anchor: [0, 0.75, -1, 0],
-      isTarget: true
+      anchor: [0, 0.25, -1, 0],
+      isTarget: true,
+      parameters: {
+        target: {
+          id,
+          port: 1
+        }
+      }
     }, common);
     jsPlumb.addEndpoint(id, {
-      anchor: [0, 0.25, -1, 0],
-      isTarget: true
+      anchor: [0, 0.75, -1, 0],
+      isTarget: true,
+      parameters: {
+        target: {
+          id,
+          port: 2
+        }
+      }
     }, common);
   }
 }
@@ -104,12 +158,24 @@ export class NotElement extends Element {
     // input
     jsPlumb.addEndpoint(id, {
       anchor: "Right",
-      isSource: true
+      isSource: true,
+      parameters: {
+        source: {
+          id,
+          port: 1
+        }
+      }
     }, common);
     // outputs
     jsPlumb.addEndpoint(id, {
       anchor: "Left",
-      isTarget: true
+      isTarget: true,
+      parameters: {
+        target: {
+          id,
+          port: 1
+        }
+      }
     }, common);
   }
 }
@@ -125,7 +191,13 @@ export class Generator extends Element {
 
     jsPlumb.addEndpoint(id, {
       anchor: "Right",
-      isSource: true
+      isSource: true,
+      parameters: {
+        target: {
+          id,
+          port: 1
+        }
+      }
     }, common);
 
     // toggle
@@ -144,7 +216,13 @@ export class Indicator extends Element {
 
     jsPlumb.addEndpoint(id, {
       anchor: "Left",
-      isTarget: true
+      isTarget: true,
+      parameters: {
+        target: {
+          id,
+          port: 1
+        }
+      }
     }, common);
   }
 }
@@ -160,16 +238,34 @@ export class Coupler extends Element {
 
     jsPlumb.addEndpoint(id, {
       anchor: "Left",
-      isTarget: true
+      isTarget: true,
+      parameters: {
+        target: {
+          id,
+          port: 1
+        }
+      }
     }, common);
 
     jsPlumb.addEndpoint(id, {
-      anchor: [1, 0.75, 1, 0],
-      isSource: true
+      anchor: [1, 0.25, 1, 0],
+      isSource: true,
+      parameters: {
+        source: {
+          id,
+          port: 1
+        }
+      }
     }, common);
     jsPlumb.addEndpoint(id, {
-      anchor: [1, 0.25, 1, 0],
-      isSource: true
+      anchor: [1, 0.75, 1, 0],
+      isSource: true,
+      parameters: {
+        source: {
+          id,
+          port: 2
+        }
+      }
     }, common);
   }
 }

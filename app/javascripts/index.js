@@ -117,7 +117,7 @@ $(() => {
   // ...
   $('#run').click(() => { //temporary button, should be removed
     jsPlumb.select().each((connection) => {
-       console.log(connection);
+      console.log(connection.getParameters());
     });
   });
   $('#api-tests').click(() => {
