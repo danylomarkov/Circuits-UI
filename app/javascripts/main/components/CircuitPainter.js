@@ -2,7 +2,8 @@ import plumb from 'jsplumb';
 import {
   AndElement, OrElement, XorElement, NotElement,
   Generator, Indicator, Coupler,
-  NAndElement, NOrElement, XNorElement
+  NAndElement, NOrElement, XNorElement,
+  RSTrigger, EncoderElement, DecoderElement
 } from './Elements.js';
 import { ElementType } from '../../ElementType.js';
 import { APIManager } from '../../API/APIManager.js';
@@ -179,6 +180,18 @@ export class CircuitPainter extends Backbone.View {
             }
             case 'xnor-drag': {
                 this.elements[id] = new XNorElement(id, position);
+                break;
+            }
+            case 'rs-drag': {
+                this.elements[id] = new RSTrigger(id, position);
+                break;
+            }
+            case 'enc-drag': {
+                this.elements[id] = new EncoderElement(id, position);
+                break;
+            }
+            case 'dec-drag': {
+                this.elements[id] = new DecoderElement(id, position);
                 break;
             }
         }

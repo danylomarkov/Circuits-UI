@@ -84,9 +84,9 @@ export class AndElement extends Element {
 
     super(id);
     this.type = ElementType.AndElement;
-    // input
-    this.addEndpoint("Right", 1, anchorRole.source);
     // output
+    this.addEndpoint("Right", 1, anchorRole.source);
+    // input
     this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
     this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
   }
@@ -101,9 +101,9 @@ export class OrElement extends Element {
 
     super(id);
     this.type = ElementType.OrElement;
-    // input
-    this.addEndpoint("Right", 1, anchorRole.source);
     // output
+    this.addEndpoint("Right", 1, anchorRole.source);
+    // input
     this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
     this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
   }
@@ -118,9 +118,9 @@ export class XorElement extends Element {
 
     super(id);
     this.type = ElementType.XorElement;
-    // input
-    this.addEndpoint("Right", 1, anchorRole.source);
     // output
+    this.addEndpoint("Right", 1, anchorRole.source);
+    // input
     this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
     this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
   }
@@ -135,9 +135,9 @@ export class NotElement extends Element {
 
     super(id);
     this.type = ElementType.NotElement;
-    // input
-    this.addEndpoint("Right", 1, anchorRole.source);
     // output
+    this.addEndpoint("Right", 1, anchorRole.source);
+    // input
     this.addEndpoint("Left", 1, anchorRole.target);
   }
 }
@@ -151,7 +151,7 @@ export class Generator extends Element {
 
     super(id);
     this.type = ElementType.OnePortGenerator;
-    // input
+    // output
     this.addEndpoint("Right", 1, anchorRole.source);
 
     // toggle
@@ -170,7 +170,7 @@ export class Indicator extends Element {
     );
     super(id);
     this.type = ElementType.OnePortIndicator;
-    //input
+    // input
     this.addEndpoint("Left", 1, anchorRole.target);
   }
   setValues(result) {
@@ -192,9 +192,9 @@ export class Coupler extends Element {
 
     super(id);
     this.type = ElementType.CouplerElement;
-    //input
+    // input
     this.addEndpoint("Left", 1, anchorRole.target);
-    //output
+    // output
     this.addEndpoint([1, 0.25, 1, 0], 1, anchorRole.source);
     this.addEndpoint([1, 0.75, 1, 0], 2, anchorRole.source);
   }
@@ -209,9 +209,9 @@ export class NAndElement extends Element {
 
     super(id);
     this.type = ElementType.NAndElement;
-    // input
-    this.addEndpoint("Right", 1, anchorRole.source);
     // output
+    this.addEndpoint("Right", 1, anchorRole.source);
+    // input
     this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
     this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
   }
@@ -226,9 +226,9 @@ export class NOrElement extends Element {
 
     super(id);
     this.type = ElementType.NOrElement;
-    // input
-    this.addEndpoint("Right", 1, anchorRole.source);
     // output
+    this.addEndpoint("Right", 1, anchorRole.source);
+    // input
     this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
     this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
   }
@@ -243,10 +243,68 @@ export class XNorElement extends Element {
 
     super(id);
     this.type = ElementType.XNorElement;
-    // input
-    this.addEndpoint("Right", 1, anchorRole.source);
     // output
+    this.addEndpoint("Right", 1, anchorRole.source);
+    // input
     this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
     this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
+  }
+}
+
+export class RSTrigger extends Element {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>RS</span></div>').addClass('element el-rs').attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
+    super(id);
+    this.type = ElementType.RSTrigger;
+    // output
+    this.addEndpoint([1, 0.25, 1, 0], 1, anchorRole.source);
+    this.addEndpoint([1, 0.75, 1, 0], 2, anchorRole.source);
+    // input
+    this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
+    this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
+  }
+}
+
+export class EncoderElement extends Element {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>Encoder</span></div>').addClass('element el-enc').attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
+    super(id);
+    this.type = ElementType.EncoderElement;
+    // input
+    this.addEndpoint([0, 0.14, -1, 0], 1, anchorRole.target);
+    this.addEndpoint([0, 0.38, -1, 0], 2, anchorRole.target);
+    this.addEndpoint([0, 0.62, -1, 0], 3, anchorRole.target);
+    this.addEndpoint([0, 0.86, -1, 0], 4, anchorRole.target);
+    // output
+    this.addEndpoint([1, 0.25, 1, 0], 1, anchorRole.source);
+    this.addEndpoint([1, 0.75, 1, 0], 2, anchorRole.source);
+  }
+}
+
+export class DecoderElement extends Element {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>Decoder</span></div>').addClass('element el-dec').attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
+    super(id);
+    this.type = ElementType.DecoderElement;
+    // input
+    this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
+    this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
+    // output
+    this.addEndpoint([1, 0.14, 1, 0], 1, anchorRole.source);
+    this.addEndpoint([1, 0.38, 1, 0], 2, anchorRole.source);
+    this.addEndpoint([1, 0.62, 1, 0], 3, anchorRole.source);
+    this.addEndpoint([1, 0.86, 1, 0], 4, anchorRole.source);
   }
 }

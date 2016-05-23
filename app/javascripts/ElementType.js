@@ -8,5 +8,8 @@ export const ElementType = {
     NOrElement: 'NOrElement',
     CouplerElement: 'CouplerElement',
     OnePortGenerator: 'OnePortGenerator',
-    OnePortIndicator: 'OnePortIndicator'
+    OnePortIndicator: 'OnePortIndicator',
+    EncoderElement: 'EncoderElement',
+    DecoderElement: 'DecoderElement',
+    RSTrigger: 'RSTrigger'
 };
