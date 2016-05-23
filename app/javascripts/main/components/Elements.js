@@ -4,13 +4,19 @@ import { ElementType } from '../../ElementType.js';
 // element styles
 const common = {
   connector: ["Flowchart"],
-  paintStyle: { strokeStyle: "#445566", radius: 5 },
+  paintStyle: { fillStyle: "#445566", radius: 5},
   hoverPaintStyle:{ fillStyle: "red" },
   connectorHoverStyle:{ strokeStyle:"red" }
 };
 
+const nonSignalStyle = {
+  anchorStyle: { fillStyle: "#445566", radius: 5},
+  connectionStyle: { strokeStyle: "#445566", radius: 5 }
+};
+
 const signalStyle = {
-  paintStyle: { strokeStyle: "#55D456"}
+  anchorStyle: { fillStyle: "#55D456", radius: 5},
+  connectionStyle: { strokeStyle: "#55D456", radius: 5 }
 };
 
 const anchorRole = {
@@ -44,26 +50,30 @@ class Element {
 
   setValues(result) {
       const that = this;
-      jsPlumb.getEndpoints(`${this.id}`).forEach((endpoint) => {
-          endpoint.setPaintStyle(common.paintStyle);
-      });
-      result.outputValues.forEach((value, index) => {
-          jsPlumb.select({source: that.id}).each((connection) => {
-              if (connection.getParameters().source.port == (index + 1)) {
-                  if (value) {
-                      connection.setPaintStyle(signalStyle.paintStyle);
-                      connection.endpoints.forEach((endpoint) => {
-                          endpoint.setPaintStyle(signalStyle.paintStyle);
-                      });
-                  } else {
-                      connection.setPaintStyle(common.paintStyle);
-                      connection.endpoints.forEach((endpoint) => {
-                          endpoint.setPaintStyle(common.paintStyle);
-                      });
-                  }
-              }
+      jsPlumb.batch(() => {
+          jsPlumb.getEndpoints(`${this.id}`).forEach((endpoint) => {
+              endpoint.setPaintStyle(nonSignalStyle.anchorStyle);
           });
-      });
+          result.outputValues.forEach((value, index) => {
+              jsPlumb.select({source: that.id}).each((connection) => {
+                  if (connection.getParameters().source.port == (index + 1)) {
+                      if (value) {
+                          connection.setPaintStyle(signalStyle.connectionStyle);
+                          connection.endpoints.forEach((endpoint) => {
+                              endpoint.setPaintStyle(signalStyle.anchorStyle);
+                          });
+                      } else {
+                          connection.setPaintStyle(nonSignalStyle.connectionStyle);
+                          connection.endpoints.forEach((endpoint) => {
+                              endpoint.setPaintStyle(nonSignalStyle.anchorStyle);
+                          });
+                      }
+                  }
+              });
+          });
+          jsPlumb.repaintEverything();
+          debugger;
+     });
   }
 }
 
