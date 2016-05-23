@@ -1,5 +1,9 @@
 import plumb from 'jsplumb';
-import { AndElement, OrElement, XorElement, NotElement, Generator, Indicator, Coupler } from './Elements.js';
+import {
+  AndElement, OrElement, XorElement, NotElement,
+  Generator, Indicator, Coupler,
+  NAndElement, NOrElement, XNorElement
+} from './Elements.js';
 import { ElementType } from '../../ElementType.js';
 import { APIManager } from '../../API/APIManager.js';
 
@@ -163,6 +167,18 @@ export class CircuitPainter extends Backbone.View {
             }
             case 'coup-drag': {
                 this.elements[id] = new Coupler(id, position);
+                break;
+            }
+            case 'nand-drag': {
+                this.elements[id] = new NAndElement(id, position);
+                break;
+            }
+            case 'nor-drag': {
+                this.elements[id] = new NOrElement(id, position);
+                break;
+            }
+            case 'xnor-drag': {
+                this.elements[id] = new XNorElement(id, position);
                 break;
             }
         }
