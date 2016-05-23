@@ -4,9 +4,13 @@ import { ElementType } from '../../ElementType.js';
 // element styles
 const common = {
   connector: ["Flowchart"],
-  paintStyle: { fillStyle: "#445566", radius: 5 },
+  paintStyle: { strokeStyle: "#445566", radius: 5 },
   hoverPaintStyle:{ fillStyle: "red" },
   connectorHoverStyle:{ strokeStyle:"red" }
+};
+
+const signalStyle = {
+  paintStyle: { strokeStyle: "#55D456"}
 };
 
 const anchorRole = {
@@ -37,12 +41,36 @@ class Element {
         parameters: parameters
       }, common);
   }
+
+  setValues(result) {
+      const that = this;
+      jsPlumb.getEndpoints(`${this.id}`).forEach((endpoint) => {
+          endpoint.setPaintStyle(common.paintStyle);
+      });
+      result.outputValues.forEach((value, index) => {
+          jsPlumb.select({source: that.id}).each((connection) => {
+              if (connection.getParameters().source.port == (index + 1)) {
+                  if (value) {
+                      connection.setPaintStyle(signalStyle.paintStyle);
+                      connection.endpoints.forEach((endpoint) => {
+                          endpoint.setPaintStyle(signalStyle.paintStyle);
+                      });
+                  } else {
+                      connection.setPaintStyle(common.paintStyle);
+                      connection.endpoints.forEach((endpoint) => {
+                          endpoint.setPaintStyle(common.paintStyle);
+                      });
+                  }
+              }
+          });
+      });
+  }
 }
 
 export class AndElement extends Element {
   constructor(id, position) {
     $('.circuit').append(
-      $('<div><span>And</span></div>').addClass(`element el-and`).attr('id', id)
+      $('<div><span>And</span></div>').addClass('element el-and').attr('id', id)
         .css('left', position.left).css('top', position.top)
     );
 
@@ -119,7 +147,10 @@ export class Generator extends Element {
     this.addEndpoint("Right", 1, anchorRole.source);
 
     // toggle
-    $(`#${id}`).append('<label class="switch"><input type="checkbox"><div class="slider"></div></label>');
+    $(`#${this.id}`).append('<label class="switch"><input type="checkbox"><div class="slider"></div></label>');
+    $(`#${this.id} input`).on('change', () => {
+        $(`#${this.id}`).trigger('change');
+    });
   }
   getValue() {
       return $(`#${this.id}`).find('input[type="checkbox"]').prop('checked');
@@ -137,8 +168,13 @@ export class Indicator extends Element {
     //input
     this.addEndpoint("Left", 1, anchorRole.target);
   }
-  setValue(value) {
-      $(`#${this.id}`).toggleClass("switched", value);
+  setValues(result) {
+      super.setValues(result);
+      if (result.outputValues.length) {
+          $(`#${this.id}`).toggleClass("switched", result.outputValues[0]);
+      } else {
+          $(`#${this.id}`).removeClass("switched");
+      }
   }
 }
 

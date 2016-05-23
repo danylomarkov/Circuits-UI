@@ -1,6 +1,7 @@
 import plumb from 'jsplumb';
 import { AndElement, OrElement, XorElement, NotElement, Generator, Indicator, Coupler } from './Elements.js';
 import { ElementType } from '../../ElementType.js';
+import { APIManager } from '../../API/APIManager.js'
 
 const contextMenu = (type, position) =>
   `<div class='context-menu' style="top: ${position.top}px; left: ${position.left}px">
@@ -12,14 +13,16 @@ export class CircuitPainter extends Backbone.View {
         _.extend(options, {
             events: {
                 'contextmenu .element': 'changeContextMenu',
+                'change .element': 'elementChanged',
                 'click': 'closeContextMenu'
             }
         });
         super(options);
     }
 
-    initialize() {
+    initialize(options) {
         const that = this;
+        this.errorModal = options.errorModal;
         this.elements = {};
         this.$el.droppable({
             drop: function(e, ui) {
@@ -37,6 +40,7 @@ export class CircuitPainter extends Backbone.View {
             if (info.sourceId === info.targetId) {
               jsPlumb.detach(info.connection);
             }
+            that.calcCircuit();
           });
 
           jsPlumb.bind('contextmenu', function (connection, e) {
@@ -45,6 +49,10 @@ export class CircuitPainter extends Backbone.View {
             that.openConnectionContextMenu(e, connection);
           });
         });
+    }
+
+    elementChanged() {
+        this.calcCircuit();
     }
 
     openElementContextMenu(e) {
@@ -61,11 +69,13 @@ export class CircuitPainter extends Backbone.View {
         jsPlumb.remove(id);
         delete this.elements[id];
         this.closeContextMenu();
+        this.calcCircuit();
     }
 
     deleteConnection(connection) {
         jsPlumb.detach(connection);
         this.closeContextMenu();
+        this.calcCircuit();
     }
 
     closeContextMenu() {
@@ -91,7 +101,7 @@ export class CircuitPainter extends Backbone.View {
                 id: elem.id,
                 type: elem.type
             }
-            if(elem.type === ElementType.OnePortGenerator) {
+            if (elem.type === ElementType.OnePortGenerator) {
                 parameters.value = elem.getValue();
             }
             result.elements.push(parameters);
@@ -99,10 +109,21 @@ export class CircuitPainter extends Backbone.View {
         return result;
     }
 
+    calcCircuit() {
+        var that = this;
+        APIManager.calcCircuit(this.getJSON())
+            .then((data) => {
+                that.applyResult(data);
+            })
+            .catch((response) => {
+                that.errorModal.show(response);
+            });
+    }
+
     applyResult(results) {
         var that = this;
-        _.each(results, function (item) {
-            that.elements[item.id].setValue(item.values[0]);
+        _.each(results, function (result) {
+            that.elements[result.id].setValues(result);
         });
     }
 
@@ -142,5 +163,6 @@ export class CircuitPainter extends Backbone.View {
                 break;
             }
         }
+        this.calcCircuit();
     }
 }
