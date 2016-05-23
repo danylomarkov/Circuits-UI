@@ -4,11 +4,7 @@ import { ElementType } from '../../ElementType.js';
 // element styles
 const common = {
   connector: ["Flowchart"],
-<<<<<<< HEAD
-  paintStyle: { fillStyle: "#445566", radius: 5},
-=======
   paintStyle: { fillStyle: '#445566', strokeStyle: '#445566', radius: 5 },
->>>>>>> master
   hoverPaintStyle:{ fillStyle: "red" },
   connectorHoverStyle:{ strokeStyle:"red" }
 };
@@ -18,8 +14,8 @@ const connectionStyle = {
   activeStyle: { strokeStyle: "#55D456", lineWidth: 4 }
 };
 const endpointStyle = {
-  defaultStyle: { fillStyle: '#445566', strokeStyle: '#445566', radius: 5 },
-  activeStyle: { fillStyle: "#55D456", strokeStyle: '#445566', radius: 5 }
+  defaultStyle: { fillStyle: '#445566', radius: 5 },
+  activeStyle: { fillStyle: "#55D456", radius: 5 }
 };
 
 const anchorRole = {
@@ -51,33 +47,31 @@ class Element {
       }, common);
   }
 
+  reset() {
+      jsPlumb.getEndpoints(`${this.id}`).forEach((endpoint) => {
+          endpoint.setPaintStyle(endpointStyle.defaultStyle);
+      });
+  }
+
   setValues(result) {
       const that = this;
-      jsPlumb.batch(() => {
-          jsPlumb.getEndpoints(`${this.id}`).forEach((endpoint) => {
-              endpoint.setPaintStyle(common.paintStyle);
+      result.outputValues.forEach((value, index) => {
+          jsPlumb.select({source: that.id}).each((connection) => {
+              if (connection.getParameters().source.port == (index + 1)) {
+                  if (value) {
+                      connection.setPaintStyle(connectionStyle.activeStyle);
+                      connection.endpoints.forEach((endpoint) => {
+                          endpoint.setPaintStyle(endpointStyle.activeStyle);
+                      });
+                  } else {
+                      connection.setPaintStyle(connectionStyle.defaultStyle);
+                      connection.endpoints.forEach((endpoint) => {
+                          endpoint.setPaintStyle(endpointStyle.defaultStyle);
+                      });
+                  }
+              }
           });
-          result.outputValues.forEach((value, index) => {
-              jsPlumb.select({source: that.id}).each((connection) => {
-                  if (connection.getParameters().source.port == (index + 1)) {
-                      if (value) {
-                          connection.setPaintStyle(connectionStyle.activeStyle);
-                          connection.repaint();
-                          connection.endpoints.forEach((endpoint) => {
-                              endpoint.setPaintStyle(endpointStyle.activeStyle);
-                          });
-                      } else {
-                          connection.setPaintStyle(connectionStyle.defaultStyle);
-                          connection.repaint();
-                          connection.endpoints.forEach((endpoint) => {
-                              endpoint.setPaintStyle(endpointStyle.defaultStyle);
-                          });
-                      }
-                  });
-              });
-              jsPlumb.repaintEverything();
-              debugger;
-         });
+     });
   }
 }
 
@@ -162,9 +156,6 @@ export class Generator extends Element {
 
     // toggle
     $(`#${this.id}`).append('<label class="switch"><input type="checkbox"><div class="slider"></div></label>');
-    $(`#${this.id} input`).on('change', () => {
-        $(`#${this.id}`).trigger('change');
-    });
   }
   getValue() {
       return $(`#${this.id}`).find('input[type="checkbox"]').prop('checked');

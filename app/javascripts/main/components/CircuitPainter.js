@@ -121,8 +121,11 @@ export class CircuitPainter extends Backbone.View {
     }
 
     applyResult(results) {
-        let that = this;
-        _.each(results, function (result) {
+        const that = this;
+        _.each(this.elements, (elem) => {
+            elem.reset();
+        });
+        _.each(results, (result) => {
             that.elements[result.id].setValues(result);
         });
     }
