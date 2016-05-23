@@ -201,3 +201,54 @@ export class Coupler extends Element {
     this.addEndpoint([1, 0.75, 1, 0], 2, anchorRole.source);
   }
 }
+
+export class NAndElement extends Element {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>Nand</span></div>').addClass('element el-nand').attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
+    super(id);
+    this.type = ElementType.NAndElement;
+    // input
+    this.addEndpoint("Right", 1, anchorRole.source);
+    // output
+    this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
+    this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
+  }
+}
+
+export class NOrElement extends Element {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>Nor</span></div>').addClass('element el-nor').attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
+    super(id);
+    this.type = ElementType.NOrElement;
+    // input
+    this.addEndpoint("Right", 1, anchorRole.source);
+    // output
+    this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
+    this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
+  }
+}
+
+export class XNorElement extends Element {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>Xnor</span></div>').addClass('element el-xnor').attr('id', id)
+        .css('left', position.left).css('top', position.top)
+    );
+
+    super(id);
+    this.type = ElementType.XNorElement;
+    // input
+    this.addEndpoint("Right", 1, anchorRole.source);
+    // output
+    this.addEndpoint([0, 0.25, -1, 0], 1, anchorRole.target);
+    this.addEndpoint([0, 0.75, -1, 0], 2, anchorRole.target);
+  }
+}
