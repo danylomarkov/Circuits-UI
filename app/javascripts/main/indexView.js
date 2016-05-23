@@ -1,6 +1,6 @@
-import {Toolbar} from './components/Toolbar.js';
-import {CircuitPainter} from './components/CircuitPainter.js';
-import {APIManager} from '../API/APIManager.js'
+import { Toolbar } from './components/Toolbar.js';
+import { CircuitPainter } from './components/CircuitPainter.js';
+import { APIManager } from '../API/APIManager.js';
 import { ErrorModalView } from '../ErrorModalView.js';
 
 export class IndexView extends Backbone.View {

@@ -4,19 +4,24 @@ import { ElementType } from '../../ElementType.js';
 // element styles
 const common = {
   connector: ["Flowchart"],
-  paintStyle: { strokeStyle: "#445566", radius: 5 },
+  paintStyle: { fillStyle: '#445566', strokeStyle: '#445566', radius: 5 },
   hoverPaintStyle:{ fillStyle: "red" },
   connectorHoverStyle:{ strokeStyle:"red" }
 };
 
-const signalStyle = {
-  paintStyle: { strokeStyle: "#55D456"}
+const connectionStyle = {
+  defaultStyle: { strokeStyle: '#445566', lineWidth: 4 },
+  activeStyle: { strokeStyle: "#55D456", lineWidth: 4 }
+};
+const endpointStyle = {
+  defaultStyle: { fillStyle: '#445566', strokeStyle: '#445566', radius: 5 },
+  activeStyle: { fillStyle: "#55D456", strokeStyle: '#445566', radius: 5 }
 };
 
 const anchorRole = {
     source: 'source',
     target: 'target'
-}
+};
 
 class Element {
   constructor(id) {
@@ -28,11 +33,11 @@ class Element {
       const isSource = role === anchorRole.source;
       const isTarget = role === anchorRole.target;
       let parameters = {};
-      if(role) {
+      if (role) {
           parameters[role] = {
               id: this.id,
               port: port
-          }
+          };
       }
       jsPlumb.addEndpoint(this.id, {
         anchor: anchor,
@@ -51,14 +56,16 @@ class Element {
           jsPlumb.select({source: that.id}).each((connection) => {
               if (connection.getParameters().source.port == (index + 1)) {
                   if (value) {
-                      connection.setPaintStyle(signalStyle.paintStyle);
+                      connection.setPaintStyle(connectionStyle.activeStyle);
+                      connection.repaint();
                       connection.endpoints.forEach((endpoint) => {
-                          endpoint.setPaintStyle(signalStyle.paintStyle);
+                          endpoint.setPaintStyle(endpointStyle.activeStyle);
                       });
                   } else {
-                      connection.setPaintStyle(common.paintStyle);
+                      connection.setPaintStyle(connectionStyle.defaultStyle);
+                      connection.repaint();
                       connection.endpoints.forEach((endpoint) => {
-                          endpoint.setPaintStyle(common.paintStyle);
+                          endpoint.setPaintStyle(endpointStyle.defaultStyle);
                       });
                   }
               }
