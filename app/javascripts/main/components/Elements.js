@@ -4,25 +4,28 @@ import { ElementType } from '../../ElementType.js';
 // element styles
 const common = {
   connector: ["Flowchart"],
+<<<<<<< HEAD
   paintStyle: { fillStyle: "#445566", radius: 5},
+=======
+  paintStyle: { fillStyle: '#445566', strokeStyle: '#445566', radius: 5 },
+>>>>>>> master
   hoverPaintStyle:{ fillStyle: "red" },
   connectorHoverStyle:{ strokeStyle:"red" }
 };
 
-const nonSignalStyle = {
-  anchorStyle: { fillStyle: "#445566", radius: 5},
-  connectionStyle: { strokeStyle: "#445566", radius: 5 }
+const connectionStyle = {
+  defaultStyle: { strokeStyle: '#445566', lineWidth: 4 },
+  activeStyle: { strokeStyle: "#55D456", lineWidth: 4 }
 };
-
-const signalStyle = {
-  anchorStyle: { fillStyle: "#55D456", radius: 5},
-  connectionStyle: { strokeStyle: "#55D456", radius: 5 }
+const endpointStyle = {
+  defaultStyle: { fillStyle: '#445566', strokeStyle: '#445566', radius: 5 },
+  activeStyle: { fillStyle: "#55D456", strokeStyle: '#445566', radius: 5 }
 };
 
 const anchorRole = {
     source: 'source',
     target: 'target'
-}
+};
 
 class Element {
   constructor(id) {
@@ -34,11 +37,11 @@ class Element {
       const isSource = role === anchorRole.source;
       const isTarget = role === anchorRole.target;
       let parameters = {};
-      if(role) {
+      if (role) {
           parameters[role] = {
               id: this.id,
               port: port
-          }
+          };
       }
       jsPlumb.addEndpoint(this.id, {
         anchor: anchor,
@@ -52,28 +55,29 @@ class Element {
       const that = this;
       jsPlumb.batch(() => {
           jsPlumb.getEndpoints(`${this.id}`).forEach((endpoint) => {
-              endpoint.setPaintStyle(nonSignalStyle.anchorStyle);
+              endpoint.setPaintStyle(common.paintStyle);
           });
           result.outputValues.forEach((value, index) => {
               jsPlumb.select({source: that.id}).each((connection) => {
                   if (connection.getParameters().source.port == (index + 1)) {
                       if (value) {
-                          connection.setPaintStyle(signalStyle.connectionStyle);
+                          connection.setPaintStyle(connectionStyle.activeStyle);
+                          connection.repaint();
                           connection.endpoints.forEach((endpoint) => {
-                              endpoint.setPaintStyle(signalStyle.anchorStyle);
+                              endpoint.setPaintStyle(endpointStyle.activeStyle);
                           });
                       } else {
-                          connection.setPaintStyle(nonSignalStyle.connectionStyle);
+                          connection.setPaintStyle(connectionStyle.defaultStyle);
+                          connection.repaint();
                           connection.endpoints.forEach((endpoint) => {
-                              endpoint.setPaintStyle(nonSignalStyle.anchorStyle);
+                              endpoint.setPaintStyle(endpointStyle.defaultStyle);
                           });
                       }
-                  }
+                  });
               });
-          });
-          jsPlumb.repaintEverything();
-          debugger;
-     });
+              jsPlumb.repaintEverything();
+              debugger;
+         });
   }
 }
 

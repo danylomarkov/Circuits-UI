@@ -1,7 +1,7 @@
 import plumb from 'jsplumb';
 import { AndElement, OrElement, XorElement, NotElement, Generator, Indicator, Coupler } from './Elements.js';
 import { ElementType } from '../../ElementType.js';
-import { APIManager } from '../../API/APIManager.js'
+import { APIManager } from '../../API/APIManager.js';
 
 const contextMenu = (type, position) =>
   `<div class='context-menu' style="top: ${position.top}px; left: ${position.left}px">
@@ -89,18 +89,18 @@ export class CircuitPainter extends Backbone.View {
     }
 
     getJSON() {
-        var result = {
+        let result = {
             elements: [],
             connections: []
-        }
+        };
         jsPlumb.select().each((connection) => {
             result.connections.push(connection.getParameters());
         });
         _.each(this.elements, (elem) => {
-            var parameters = {
+            let parameters = {
                 id: elem.id,
                 type: elem.type
-            }
+            };
             if (elem.type === ElementType.OnePortGenerator) {
                 parameters.value = elem.getValue();
             }
@@ -121,7 +121,7 @@ export class CircuitPainter extends Backbone.View {
     }
 
     applyResult(results) {
-        var that = this;
+        let that = this;
         _.each(results, function (result) {
             that.elements[result.id].setValues(result);
         });
