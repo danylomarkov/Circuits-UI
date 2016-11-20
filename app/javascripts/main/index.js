@@ -1,4 +1,4 @@
-import {IndexView} from './IndexView.js';
+import {IndexView} from './indexView.js';
 
 $(() => {
     if($('body').hasClass('index')) {
