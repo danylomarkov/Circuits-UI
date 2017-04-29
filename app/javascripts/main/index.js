@@ -1,8 +1,9 @@
-import {IndexView} from './indexView.js';
+import $ from 'jquery'
+import { IndexView } from './indexView.js'
 
 $(() => {
-    if($('body').hasClass('index')) {
-        var indexView = new IndexView();
-        indexView.render();
-    }
-});
+  if ($('body').hasClass('index')) {
+    const indexView = new IndexView()
+    indexView.render()
+  }
+})

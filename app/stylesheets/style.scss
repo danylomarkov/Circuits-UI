@@ -82,7 +82,7 @@ html, body {
     }
   }
 
-  .jsplumb-endpoint {
+  .jtk-endpoint {
     cursor: pointer;
   }
 }
@@ -171,7 +171,6 @@ html, body {
   }
   &.ui-draggable-dragging {
     cursor: move;
-    //margin: 0;
     z-index: 999;
   }
 }
