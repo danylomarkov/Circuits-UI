@@ -16,13 +16,26 @@ const contextMenu = (type, position) =>
     <span>Delete ${type}</span>
   </div>`
 
+const getElementId = (event) => event.currentTarget.getAttribute('id')
+
+const getPosition = (element) => ({
+  left: element.offset().left,
+  top: element.offset().top,
+  right: element.offset().left + element.outerWidth(),
+  bottom: element.offset().top + element.outerHeight()
+})
+
 export class CircuitPainter extends View {
   constructor(options) {
     const newOptions = R.merge(options, {
       events: {
         'contextmenu .element': 'changeContextMenu',
-        'change .element': 'elementChanged',
-        'click': 'closeContextMenu'
+        'change .element': 'onElementChange',
+        'dblclick .element': 'onElementDblClick',
+        'click': 'onSchemeClick',
+        'mousedown': 'onSchemeMouseDown',
+        'mousemove': 'onSchemeMouseMove',
+        'mouseup': 'onSchemeMouseUp'
       }
     })
     super(newOptions)
@@ -32,6 +45,7 @@ export class CircuitPainter extends View {
     const that = this
     this.errorModal = options.errorModal
     this.elements = {}
+    this.rubberbandStartPoint = { x: 0, y: 0 }
     this.$el.droppable({
       drop(e, ui) {
         that.createElement($(this), ui)
@@ -59,13 +73,51 @@ export class CircuitPainter extends View {
     })
   }
 
-  elementChanged() {
+  onElementDblClick(e) {
+    this.elements[getElementId(e)].toggleSelection()
+    jsPlumb.addToDragSelection(getElementId(e))
+  }
+
+  onElementChange() {
     this.calcCircuit()
+  }
+
+  onSchemeClick(e) {
+    this.closeContextMenu()
+    if (!$(e.target).hasClass('circuit')) return
+    if (this.rubberbandStartPoint.x === e.pageX && this.rubberbandStartPoint.y === e.pageY) {
+      this.removeSelection()
+    }
+  }
+
+  onSchemeMouseDown(e) {
+    if (!$(e.target).hasClass('circuit')) return
+    this.rubberbandStartPoint = { x: e.pageX, y: e.pageY }
+    $('#rubberband').css({ top: e.pageY, left: e.pageX, height: 1, width: 1 })
+    $('#rubberband').show()
+  }
+
+  onSchemeMouseMove(e) {
+    if (!$('#rubberband').is(':visible')) return
+    const width = event.pageX - this.rubberbandStartPoint.x
+    const height = event.pageY - this.rubberbandStartPoint.y
+    $('#rubberband').css({
+      top: (event.pageY > this.rubberbandStartPoint.y) ? this.rubberbandStartPoint.y : event.pageY,
+      left: (event.pageX >= this.rubberbandStartPoint.x) ? this.rubberbandStartPoint.x : event.pageX,
+      height: (event.pageY > this.rubberbandStartPoint.y) ? height : (height * -1),
+      width: (event.pageX > this.rubberbandStartPoint.x) ? width : (width * -1)
+    })
+  }
+
+  onSchemeMouseUp(e) {
+    if (!$('#rubberband').is(':visible')) return
+    this.findSelectedElements()
+    $('#rubberband').hide()
   }
 
   openElementContextMenu(e) {
     $('body').append(contextMenu('element', { left: e.clientX, top: e.clientY }))
-    $('.context-menu').on('click', () => this.deleteElement(e.currentTarget.getAttribute('id')))
+    $('.context-menu').on('click', () => this.deleteElement(getElementId(e)))
   }
 
   openConnectionContextMenu(e, connection) {
@@ -88,6 +140,28 @@ export class CircuitPainter extends View {
 
   closeContextMenu() {
     $('.context-menu').remove()
+  }
+
+  removeSelection() {
+    jsPlumb.clearDragSelection()
+    R.forEachObjIndexed(element => element.removeSelection(), this.elements)
+  }
+
+  findSelectedElements() {
+    const rubberbandPosition = getPosition($('#rubberband'))
+    R.forEachObjIndexed(element => {
+      const elementPosition = getPosition($(`#${element.id}`))
+      /* check if two rectangles overlap */
+      if (!(
+        rubberbandPosition.bottom < elementPosition.top ||
+        rubberbandPosition.left > elementPosition.right ||
+        rubberbandPosition.top > elementPosition.bottom ||
+        rubberbandPosition.right < elementPosition.left
+      )) {
+        element.addSelection()
+        jsPlumb.addToDragSelection(element.id)
+      }
+    }, this.elements)
   }
 
   changeContextMenu(e) {
