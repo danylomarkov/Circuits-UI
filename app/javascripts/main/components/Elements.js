@@ -28,6 +28,7 @@ const anchorRole = {
 class Element {
   constructor(id) {
     this.id = id
+    this.selected = false
     jsPlumb.draggable(id, { containment: true })
   }
 
@@ -72,6 +73,21 @@ class Element {
         }
       })
     })
+  }
+
+  toggleSelection() {
+    $(`#${this.id}`).toggleClass('selected')
+    this.selected = !this.selected
+  }
+
+  addSelection() {
+    $(`#${this.id}`).addClass('selected')
+    this.selected = true
+  }
+
+  removeSelection() {
+    $(`#${this.id}`).removeClass('selected')
+    this.selected = false
   }
 }
 
