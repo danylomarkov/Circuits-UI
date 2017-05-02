@@ -75,7 +75,6 @@ export class CircuitPainter extends View {
 
   onElementDblClick(e) {
     this.elements[getElementId(e)].toggleSelection()
-    jsPlumb.addToDragSelection(getElementId(e))
   }
 
   onElementChange() {
@@ -107,11 +106,11 @@ export class CircuitPainter extends View {
       height: (event.pageY > this.rubberbandStartPoint.y) ? height : (height * -1),
       width: (event.pageX > this.rubberbandStartPoint.x) ? width : (width * -1)
     })
+    this.findSelectedElements()
   }
 
   onSchemeMouseUp(e) {
     if (!$('#rubberband').is(':visible')) return
-    this.findSelectedElements()
     $('#rubberband').hide()
   }
 
@@ -143,7 +142,6 @@ export class CircuitPainter extends View {
   }
 
   removeSelection() {
-    jsPlumb.clearDragSelection()
     R.forEachObjIndexed(element => element.removeSelection(), this.elements)
   }
 
@@ -159,7 +157,8 @@ export class CircuitPainter extends View {
         rubberbandPosition.right < elementPosition.left
       )) {
         element.addSelection()
-        jsPlumb.addToDragSelection(element.id)
+      } else {
+        element.removeSelection()
       }
     }, this.elements)
   }

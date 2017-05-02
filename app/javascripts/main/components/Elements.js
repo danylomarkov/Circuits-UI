@@ -5,15 +5,15 @@ import { ElementType } from '../../ElementType.js'
 
 // element styles
 const connectionStyle = {
-  defaultStyle: { stroke: '#445566', strokeWidth: 4 },
-  activeStyle: { stroke: '#55D456', strokeWidth: 4 }
+  defaultStyle: { stroke: '#445566', strokeWidth: 3 },
+  activeStyle: { stroke: '#55D456', strokeWidth: 3 }
 }
 const endpointStyle = {
   defaultStyle: { fill: '#445566', radius: 5 },
   activeStyle: { fill: '#55D456', radius: 5 }
 }
 const common = {
-  connector: ['Flowchart'],
+  connector: ['Flowchart', { gap: 4, cornerRadius: 5 }],
   paintStyle: R.merge(endpointStyle.defaultStyle, { stroke: '#445566' }),
   hoverPaintStyle: { fill: 'red' },
   connectorStyle: connectionStyle.defaultStyle,
@@ -78,16 +78,23 @@ class Element {
   toggleSelection() {
     $(`#${this.id}`).toggleClass('selected')
     this.selected = !this.selected
+    if (this.selected) {
+      jsPlumb.addToDragSelection(this.id)
+    } else {
+      jsPlumb.removeFromDragSelection(this.id)
+    }
   }
 
   addSelection() {
     $(`#${this.id}`).addClass('selected')
     this.selected = true
+    jsPlumb.addToDragSelection(this.id)
   }
 
   removeSelection() {
     $(`#${this.id}`).removeClass('selected')
     this.selected = false
+    jsPlumb.removeFromDragSelection(this.id)
   }
 }
 
