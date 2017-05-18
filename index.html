@@ -75,6 +75,11 @@
                 <div class="add-el el-ind" id="ind-drag"></div>
               </div>
             </div>
+            <div class="element-description">
+              Macro
+            </div>
+            <div class="elements-section macro-section">
+            </div>
           </div>
         </div>
       </div>
@@ -83,11 +88,39 @@
     <div class="content">
       <div class="circuit-outer">
         <div class="circuit">
+          <button class="create-macro">Create Macro</button>
           <div id="rubberband"></div>
         </div>
       </div>
     </div>
   </div>
+  <div class="modal fade macro-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Create Macroelement</h4>
+        </div>
+        <div class="modal-body">
+          <div>
+            <p class="message"></p>
+            <div class="form-group">
+              <label for="macro-name">Please enter the name for your Macroelement:</label>
+              <input type="text" class="form-control" id="macro-name">
+            </div>
+          </div>
+          <div class="macro-circuit-outer content">
+            <div class="macro-circuit">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="macro-save">Save</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
   <div class="modal fade error-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -96,10 +129,10 @@
           <h4 class="modal-title">Error!</h4>
         </div>
         <div class="modal-body">
-            <div><b class="error-title"></b></div>
-            <!-- <div><u>Error</u>:<br /><p class="exception-type"></p></div>
-            <div><u>StackTrace</u>:<br /><p class="stack-trace"></p></div> -->
-            <div><u>Message</u>:<br /><p class="message"></p></div>
+          <div><b class="error-title"></b></div>
+          <!-- <div><u>Error</u>:<br /><p class="exception-type"></p></div>
+          <div><u>StackTrace</u>:<br /><p class="stack-trace"></p></div> -->
+          <div><u>Message</u>:<br /><p class="message"></p></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

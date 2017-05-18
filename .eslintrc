@@ -7,7 +7,6 @@
     "generator-star-spacing": [2, {"before": false, "after": true}],
     "no-unused-vars": [1, { "args": "none" }],
     "max-len": [1, 110, 4],
-
     "key-spacing": [0, { "align": "value" }],
     "no-multi-spaces": [2, { "exceptions": { "ImportDeclaration": true, "VariableDeclarator": true } }],
     "no-param-reassign": [2, { "props": false }],
@@ -28,7 +27,8 @@
     "consistent-return": 0,
     "no-plusplus": 0,
     "eqeqeq": 0,
-    "import/imports-first": 0
+    "import/imports-first": 0,
+    "func-names": 0
   },
   "parserOptions": {
     "ecmaFeatures": {

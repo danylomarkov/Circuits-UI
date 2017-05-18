@@ -5,15 +5,15 @@ import { ElementType } from '../../ElementType.js'
 
 // element styles
 const connectionStyle = {
-  defaultStyle: { stroke: '#445566', strokeWidth: 4 },
-  activeStyle: { stroke: '#55D456', strokeWidth: 4 }
+  defaultStyle: { stroke: '#445566', strokeWidth: 3 },
+  activeStyle: { stroke: '#55D456', strokeWidth: 3 }
 }
 const endpointStyle = {
   defaultStyle: { fill: '#445566', radius: 5 },
   activeStyle: { fill: '#55D456', radius: 5 }
 }
 const common = {
-  connector: ['Flowchart'],
+  connector: ['Flowchart', { gap: 4, cornerRadius: 5 }],
   paintStyle: R.merge(endpointStyle.defaultStyle, { stroke: '#445566' }),
   hoverPaintStyle: { fill: 'red' },
   connectorStyle: connectionStyle.defaultStyle,
@@ -78,16 +78,23 @@ class Element {
   toggleSelection() {
     $(`#${this.id}`).toggleClass('selected')
     this.selected = !this.selected
+    if (this.selected) {
+      jsPlumb.addToDragSelection(this.id)
+    } else {
+      jsPlumb.removeFromDragSelection(this.id)
+    }
   }
 
   addSelection() {
     $(`#${this.id}`).addClass('selected')
     this.selected = true
+    jsPlumb.addToDragSelection(this.id)
   }
 
   removeSelection() {
     $(`#${this.id}`).removeClass('selected')
     this.selected = false
+    jsPlumb.removeFromDragSelection(this.id)
   }
 }
 
@@ -335,5 +342,29 @@ export class DecoderElement extends Element {
     this.addEndpoint([1, 0.38, 1, 0], 2, anchorRole.source)
     this.addEndpoint([1, 0.62, 1, 0], 3, anchorRole.source)
     this.addEndpoint([1, 0.86, 1, 0], 4, anchorRole.source)
+  }
+}
+
+export class MacroElement extends Element {
+  constructor(id, position, name, inPorts, outPorts) {
+    $('.circuit').append(
+      $(`<div><span>${name}</span></div>`).addClass('element').attr('id', id)
+        .css('left', position.left)
+        .css('top', position.top)
+        .css('width', `${R.max(50, R.max(inPorts.length, outPorts.length) * 20)}px`)
+        .css('height', `${R.max(40, R.max(inPorts.length, outPorts.length) * 20)}px`)
+    )
+
+    super(id)
+    this.type = name
+    this.name = name
+    // input
+    inPorts.forEach((port, index) => {
+      this.addEndpoint([0, (index + 0.5) * (1 / inPorts.length), -1, 0], index, anchorRole.target)
+    })
+    // output
+    outPorts.forEach((port, index) => {
+      this.addEndpoint([1, (index + 0.5) * (1 / outPorts.length), 1, 0], index, anchorRole.source)
+    })
   }
 }

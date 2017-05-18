@@ -66,6 +66,14 @@ html, body {
       background-image: url("./../images/circuit_bg.jpg");
       background-repeat: repeat;
 
+      .create-macro {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 999;
+        user-select: none;
+      }
+
       #rubberband {
         border: 1px solid #66afe9;
         position: fixed;
@@ -105,17 +113,44 @@ html, body {
   }
 }
 
+.macro-circuit-outer {
+  height: 300px;
+  width: 100%;
+  min-height: 0;
+
+  .macro-circuit {
+    height: 300px;
+    position: relative;
+    background-image: url("./../images/circuit_bg.jpg");
+    background-repeat: repeat;
+    overflow: scroll;
+
+    * {
+      cursor: default !important;
+      user-select: none;
+    }
+
+    .port {
+      position: absolute;
+      color: red;
+      text-transform: capitalize;
+    }
+  }
+}
+
 .content .element.el-ind, .add-el.el-ind {
   width: 40px;
   height: 40px;
   border-radius: 100%;
   &.switched {
-    border: 0;
     background-color: #55D456;
     box-shadow: rgba(85, 212, 86, 0.9) 0px 0px 10px,
                 rgba(85, 212, 86, 0.8) 0px 0px 30px,
                 rgba(85, 212, 86, 0.7) 0px 0px 50px,
                 rgba(85, 212, 86, 0.6) 0px 0px 70px;
+    &:not(.selected) {
+      border: 0;
+    }
   }
 }
 
@@ -187,10 +222,18 @@ html, body {
   }
   span {
     margin: auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 5px;
   }
   &.ui-draggable-dragging {
     cursor: move;
     z-index: 999;
+  }
+  &.add-macro {
+    width: 70px;
+    height: 50px;
   }
 }
 
