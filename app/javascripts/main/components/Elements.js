@@ -344,3 +344,27 @@ export class DecoderElement extends Element {
     this.addEndpoint([1, 0.86, 1, 0], 4, anchorRole.source)
   }
 }
+
+export class MacroElement extends Element {
+  constructor(id, position, name, inPorts, outPorts) {
+    $('.circuit').append(
+      $(`<div><span>${name}</span></div>`).addClass('element').attr('id', id)
+        .css('left', position.left)
+        .css('top', position.top)
+        .css('width', `${R.max(50, R.max(inPorts.length, outPorts.length) * 20)}px`)
+        .css('height', `${R.max(40, R.max(inPorts.length, outPorts.length) * 20)}px`)
+    )
+
+    super(id)
+    this.type = name
+    this.name = name
+    // input
+    inPorts.forEach((port, index) => {
+      this.addEndpoint([0, (index + 0.5) * (1 / inPorts.length), -1, 0], index, anchorRole.target)
+    })
+    // output
+    outPorts.forEach((port, index) => {
+      this.addEndpoint([1, (index + 0.5) * (1 / outPorts.length), 1, 0], index, anchorRole.source)
+    })
+  }
+}

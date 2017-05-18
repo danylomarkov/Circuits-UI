@@ -13,6 +13,7 @@
     "jquery": "^2.2.0",
     "jquery-ui": "1.10.5",
     "jsplumb": "^2.3.5",
+    "pluralize": "^4.0.0",
     "ramda": "^0.23.0",
     "script-loader": "^0.6.1",
     "style-loader": "^0.13.1",

@@ -6,7 +6,8 @@ import {
   AndElement, OrElement, XorElement, NotElement,
   Generator, Indicator, Coupler,
   NAndElement, NOrElement, XNorElement,
-  RSTrigger, EncoderElement, DecoderElement
+  RSTrigger, EncoderElement, DecoderElement,
+  MacroElement
 } from './Elements.js'
 import { ElementType } from '../../ElementType.js'
 import { APIManager } from '../../API/APIManager.js'
@@ -35,7 +36,8 @@ export class CircuitPainter extends View {
         'click': 'onSchemeClick',
         'mousedown': 'onSchemeMouseDown',
         'mousemove': 'onSchemeMouseMove',
-        'mouseup': 'onSchemeMouseUp'
+        'mouseup': 'onSchemeMouseUp',
+        'click .create-macro': 'onCreateMacro'
       }
     })
     super(newOptions)
@@ -44,7 +46,16 @@ export class CircuitPainter extends View {
   initialize(options) {
     const that = this
     this.errorModal = options.errorModal
+    this.macroModal = options.macroModal
     this.elements = {}
+    this.macroElements = {
+      mymacro: { // example
+        elements: [],
+        connections: [],
+        inPorts: [],
+        outPorts: []
+      }
+    }
     this.rubberbandStartPoint = { x: 0, y: 0 }
     this.$el.droppable({
       drop(e, ui) {
@@ -71,6 +82,14 @@ export class CircuitPainter extends View {
         that.openConnectionContextMenu(e, connection)
       })
     })
+  }
+
+  onCreateMacro() {
+    const selectedElements = this.selectedElements()
+    if (!R.isEmpty(selectedElements)) {
+      this.macroModal.show(selectedElements, this.macroElements)
+      this.removeSelection()
+    }
   }
 
   onElementDblClick(e) {
@@ -161,6 +180,10 @@ export class CircuitPainter extends View {
         element.removeSelection()
       }
     }, this.elements)
+  }
+
+  selectedElements() {
+    return R.filter(element => element.selected, this.elements)
   }
 
   changeContextMenu(e) {
@@ -261,7 +284,14 @@ export class CircuitPainter extends View {
         this.elements[id] = new DecoderElement(id, position)
         break
       }
-      default:
+      default: {
+        if ($(ui.draggable.context).hasClass('add-macro')) {
+          const name = ui.draggable.context.id.split('-drag')[0] // TODO fix
+          this.elements[id] = new MacroElement(
+            id, position, name, this.macroElements[name].inPorts, this.macroElements[name].outPorts
+          )
+        }
+      }
     }
     this.calcCircuit()
   }

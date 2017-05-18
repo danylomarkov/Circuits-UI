@@ -1,15 +1,10 @@
 import { View } from 'backbone'
-import $ from 'jquery'
+// import $ from 'jquery'
+import { makeDraggable } from '../../helpers.js'
 
 export class Toolbar extends View {
   initialize(options) {
-    this.$('.add-el').draggable({
-      appendTo: 'body',
-      containment: 'body',
-      helper() {
-        return $(this).clone()
-      }
-    })
+    makeDraggable()
   }
 
   render() {
