@@ -7,7 +7,7 @@ import {
   Generator, Indicator, Coupler,
   NAndElement, NOrElement, XNorElement,
   RSTrigger, EncoderElement, DecoderElement,
-  MacroElement
+  SevenSegmentIndicator, MacroElement
 } from './Elements.js'
 import { ElementType } from '../../ElementType.js'
 import { APIManager } from '../../API/APIManager.js'
@@ -17,7 +17,7 @@ const contextMenu = (type, position) =>
     <span>Delete ${type}</span>
   </div>`
 
-const getElementId = (event) => event.currentTarget.getAttribute('id')
+const getElementId = event => event.currentTarget.getAttribute('id')
 
 const getPosition = (element) => ({
   left: element.offset().left,
@@ -282,6 +282,10 @@ export class CircuitPainter extends View {
       }
       case 'dec-drag': {
         this.elements[id] = new DecoderElement(id, position)
+        break
+      }
+      case 'ind-seven-drag': {
+        this.elements[id] = new SevenSegmentIndicator(id, position)
         break
       }
       default: {

@@ -11,5 +11,6 @@ export const ElementType = {
   OnePortIndicator: 'OnePortIndicator',
   EncoderElement: 'EncoderElement',
   DecoderElement: 'DecoderElement',
-  RSTrigger: 'RSTrigger'
+  RSTrigger: 'RSTrigger',
+  SevenSegmentIndicator: 'SevenSegmentIndicator'
 }

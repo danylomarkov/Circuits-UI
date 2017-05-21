@@ -345,6 +345,33 @@ export class DecoderElement extends Element {
   }
 }
 
+export class SevenSegmentIndicator extends Element {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div></div>').addClass('element el-ind-seven').attr('id', id)
+        .append($('.toolbar #ind-seven-drag').html())
+        .css('left', position.left)
+        .css('top', position.top)
+    )
+
+    super(id)
+    this.type = ElementType.SevenSegmentIndicator
+    // input
+    this.addEndpoint([0, 0.14, -1, 0], 1, anchorRole.target)
+    this.addEndpoint([0, 0.38, -1, 0], 2, anchorRole.target)
+    this.addEndpoint([0, 0.62, -1, 0], 3, anchorRole.target)
+    this.addEndpoint([0, 0.86, -1, 0], 4, anchorRole.target)
+  }
+
+  setValues(result) {
+    super.setValues(result)
+    const segments = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+    result.outputValues.forEach((value, index) => {
+      $(`#${this.id} .ind-seven-${segments[index]}`).toggleClass('switched', value)
+    })
+  }
+}
+
 export class MacroElement extends Element {
   constructor(id, position, name, inPorts, outPorts) {
     $('.circuit').append(

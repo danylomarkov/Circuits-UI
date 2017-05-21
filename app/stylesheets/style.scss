@@ -92,7 +92,7 @@ html, body {
     background-color: #fafafa;
     z-index: 99;
     display: flex;
-    span {
+    &>span {
       margin: auto;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -170,6 +170,172 @@ html, body {
   width: 70px;
 }
 
+.content .element.el-ind-seven, .add-el.el-ind-seven {
+  height: auto;
+  width: auto;
+
+  .ind-seven-wrapper {
+    text-align: left;
+    position: relative;
+    width: 28px;
+    height: 54px;
+    display: inline-block;
+    margin: 4px;
+  }
+
+  .ind-seven-segment {
+    position: absolute;
+    background-color: #272e38;
+    border-color: #272e38;
+    opacity: 0.1;
+
+    &.switched {
+      opacity: 1;
+    }
+
+    &:after, &:before {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border: 5px solid transparent;
+    }
+  }
+
+  .ind-seven-a {
+    height: 5px;
+    width: 16px;
+    top: 0;
+    left: 6px;
+
+    &:after {
+      border-width: 0 0 5px 5px;
+      border-left-color: inherit;
+      right: -5px;
+    }
+
+    &:before {
+      border-width: 0 5px 5px 0;
+      border-right-color: inherit;
+      left: -5px;
+    }
+  }
+
+  .ind-seven-b {
+    width: 5px;
+    height: 14px;
+    top: 7px;
+    right: 0;
+
+    &:after {
+      border-width: 5px 0 0 5px;
+      border-top-color: inherit;
+      bottom: -5px;
+    }
+
+    &:before {
+      border-width: 0 0 5px 5px;
+      border-bottom-color: inherit;
+      top: -5px;
+    }
+  }
+
+  .ind-seven-c {
+    width: 5px;
+    height: 14px;
+    top: 32px;
+    right: 0;
+
+    &:after {
+      border-width: 5px 0 0 5px;
+      border-top-color: inherit;
+      bottom: -5px;
+    }
+
+    &:before {
+      border-width: 0 0 5px 5px;
+      border-bottom-color: inherit;
+      top: -5px;
+    }
+  }
+
+  .ind-seven-d {
+    height: 5px;
+    width: 16px;
+    top: 48px;
+    left: 6px;
+
+    &:after {
+      border-width: 5px 0 0 5px;
+      border-left-color: inherit;
+      right: -5px;
+    }
+
+    &:before {
+      border-width: 5px 5px 0 0;
+      border-right-color: inherit;
+      left: -5px;
+    }
+  }
+
+  .ind-seven-e {
+    width: 5px;
+    height: 14px;
+    top: 32px;
+    left: 0;
+
+    &:after {
+      border-width: 0 0 5px 5px;
+      border-left-color: inherit;
+      bottom: -5px;
+    }
+
+    &:before {
+      border-width: 0 5px 5px 0;
+      border-bottom-color: inherit;
+      top: -5px;
+    }
+  }
+
+  .ind-seven-f {
+    width: 5px;
+    height: 14px;
+    top: 7px;
+    left: 0;
+
+    &:after {
+      border-width: 0 0 5px 5px;
+      border-left-color: inherit;
+      bottom: -5px;
+    }
+
+    &:before {
+      border-width: 0 5px 5px 0;
+      border-bottom-color: inherit;
+      top: -5px;
+    }
+  }
+
+  .ind-seven-g {
+    height: 5px;
+    width: 16px;
+    top: 24px;
+    left: 6px;
+
+    &:after {
+      border-width: 3px 4px 2px;
+      border-left-color: inherit;
+      right: -8px;
+    }
+
+    &:before {
+      border-width: 3px 4px 2px;
+      border-right-color: inherit;
+      left: -8px;
+    }
+  }
+}
+
 .context-menu {
   position: fixed;
   padding: 5px;
@@ -202,10 +368,12 @@ html, body {
 
 .add-el-container {
   padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .add-el {
-  display: inline-block;
   width: 50px;
   height: 35px;
   cursor: move;
@@ -220,7 +388,7 @@ html, body {
     transition: none;
     cursor: move;
   }
-  span {
+  &>span {
     margin: auto;
     text-overflow: ellipsis;
     white-space: nowrap;

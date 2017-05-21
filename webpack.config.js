@@ -14,6 +14,9 @@ module.exports = {
     filename: 'bundle.js'
   },
   devtool: 'inline-source-map',
+  watchOptions: {
+    poll: true
+  },
   module: {
     loaders: [
       {
