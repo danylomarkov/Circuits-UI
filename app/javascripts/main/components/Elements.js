@@ -25,9 +25,13 @@ const anchorRole = {
   target: 'target'
 }
 
+const LATENCY = 1000
+
 class Element {
   constructor(id) {
     this.id = id
+    this.inputValues = []
+    this.outputValues = []
     this.selected = false
     jsPlumb.draggable(id, { containment: true })
   }
@@ -40,6 +44,8 @@ class Element {
         port
       }
     }
+    if (role === anchorRole.source) this.outputValues.push(false)
+    if (role === anchorRole.target) this.inputValues.push(false)
     jsPlumb.addEndpoint(this.id, {
       anchor,
       isSource: role === anchorRole.source,
@@ -54,7 +60,7 @@ class Element {
     })
   }
 
-  setValues(result) {
+  setValues(result, animate = true) {
     const that = this
     result.outputValues.forEach((value, index) => {
       jsPlumb.select({ source: that.id }).each((connection) => {
@@ -73,6 +79,14 @@ class Element {
         }
       })
     })
+    if (
+      animate &&
+      !(R.equals(this.inputValues, result.inputValues) && R.equals(this.outputValues, result.outputValues))
+    ) {
+      // this.animate()
+    }
+    this.inputValues = result.inputValues
+    this.outputValues = result.outputValues
   }
 
   toggleSelection() {
@@ -95,6 +109,26 @@ class Element {
     $(`#${this.id}`).removeClass('selected')
     this.selected = false
     jsPlumb.removeFromDragSelection(this.id)
+  }
+
+  animate() {
+    $(`#${this.id}`).append(`
+      <div class="bar-wrapper">
+        <div class="bar-counter"></div>
+        <div class="bar"></div>
+      </div>
+    `)
+    let width = 1
+    const id = setInterval(() => {
+      if (width >= 100) {
+        setTimeout(() => $(`#${this.id} .bar-wrapper`).remove(), LATENCY / 10)
+        clearInterval(id)
+      } else {
+        width++
+        $(`#${this.id} .bar-counter`).html(`${width}%`)
+        $(`#${this.id} .bar`).css('width', `${width}%`)
+      }
+    }, LATENCY / 100)
   }
 }
 
@@ -188,6 +222,9 @@ export class Generator extends Element {
   getValue() {
     return $(`#${this.id}`).find('input[type="checkbox"]').prop('checked')
   }
+  setValues(result) {
+    super.setValues(result, false)
+  }
 }
 
 export class Indicator extends Element {
@@ -203,7 +240,7 @@ export class Indicator extends Element {
     this.addEndpoint('Left', 1, anchorRole.target)
   }
   setValues(result) {
-    super.setValues(result)
+    super.setValues(result, false)
     if (result.outputValues.length) {
       $(`#${this.id}`).toggleClass('switched', result.outputValues[0])
     } else {
@@ -364,7 +401,7 @@ export class SevenSegmentIndicator extends Element {
   }
 
   setValues(result) {
-    super.setValues(result)
+    super.setValues(result, false)
     const segments = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
     result.outputValues.forEach((value, index) => {
       $(`#${this.id} .ind-seven-${segments[index]}`).toggleClass('switched', value)
