@@ -37,7 +37,8 @@ export class CircuitPainter extends View {
         'mousedown': 'onSchemeMouseDown',
         'mousemove': 'onSchemeMouseMove',
         'mouseup': 'onSchemeMouseUp',
-        'click .create-macro': 'onCreateMacro'
+        'click .create-macro': 'onCreateMacro',
+        'click .run': 'onRun'
       }
     })
     super(newOptions)
@@ -73,7 +74,7 @@ export class CircuitPainter extends View {
         if (info.sourceId === info.targetId) {
           jsPlumb.detach(info.connection)
         }
-        that.calcCircuit()
+        // that.calcCircuit()
       })
 
       jsPlumb.bind('contextmenu', (connection, e) => {
@@ -92,12 +93,16 @@ export class CircuitPainter extends View {
     }
   }
 
+  onRun() {
+    this.calcCircuit()
+  }
+
   onElementDblClick(e) {
     this.elements[getElementId(e)].toggleSelection()
   }
 
   onElementChange() {
-    this.calcCircuit()
+    // this.calcCircuit()
   }
 
   onSchemeClick(e) {
@@ -147,13 +152,13 @@ export class CircuitPainter extends View {
     jsPlumb.remove(id)
     delete this.elements[id]
     this.closeContextMenu()
-    this.calcCircuit()
+    // this.calcCircuit()
   }
 
   deleteConnection(connection) {
     jsPlumb.detach(connection)
     this.closeContextMenu()
-    this.calcCircuit()
+    // this.calcCircuit()
   }
 
   closeContextMenu() {
@@ -297,6 +302,6 @@ export class CircuitPainter extends View {
         }
       }
     }
-    this.calcCircuit()
+    // this.calcCircuit()
   }
 }

@@ -74,6 +74,14 @@ html, body {
         user-select: none;
       }
 
+      .run {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        user-select: none;
+      }
+
       #rubberband {
         border: 1px solid #66afe9;
         position: fixed;
