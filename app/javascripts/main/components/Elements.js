@@ -25,8 +25,6 @@ const anchorRole = {
   target: 'target'
 }
 
-const LATENCY = 1000
-
 class Element {
   constructor(id) {
     this.id = id
@@ -34,6 +32,12 @@ class Element {
     this.outputValues = []
     this.selected = false
     jsPlumb.draggable(id, { containment: true })
+    $(`#${this.id}`).append(`
+      <div class="bar-wrapper">
+        <div class="bar-counter"></div>
+        <div class="bar"></div>
+      </div>
+    `)
   }
 
   addEndpoint(anchor, port, role) {
@@ -64,7 +68,7 @@ class Element {
     const that = this
     result.outputValues.forEach((value, index) => {
       jsPlumb.select({ source: that.id }).each((connection) => {
-        if (connection.getParameters().source.port == (index + 1)) {
+        if (connection.getParameters().source.port === (index + 1)) {
           if (value) {
             connection.setPaintStyle(connectionStyle.activeStyle)
             connection.endpoints.forEach((endpoint) => {
@@ -81,7 +85,6 @@ class Element {
     })
     if (animate) {
       if (result.startTime !== -1) {
-        console.log((100 * (time - result.startTime)) / result.delay)
         this.animate((100 * (time - result.startTime)) / result.delay)
       }
     }
@@ -111,26 +114,13 @@ class Element {
     jsPlumb.removeFromDragSelection(this.id)
   }
 
-  animate(time) {
-    $(`#${this.id}`).append(`
-      <div class="bar-wrapper">
-        <div class="bar-counter"></div>
-        <div class="bar"></div>
-      </div>
-    `)
-    $(`#${this.id} .bar-counter`).html(`${time}%`)
-    $(`#${this.id} .bar`).css('width', `${time}%`)
-    // let width = 1
-    // const id = setInterval(() => {
-    //   if (width >= 100) {
-    //     setTimeout(() => $(`#${this.id} .bar-wrapper`).remove(), LATENCY / 10)
-    //     clearInterval(id)
-    //   } else {
-    //     width++
-    //     $(`#${this.id} .bar-counter`).html(`${width}%`)
-    //     $(`#${this.id} .bar`).css('width', `${width}%`)
-    //   }
-    // }, LATENCY / 100)
+  animate(percent) {
+    $(`#${this.id} .bar-wrapper`).css('display', 'block')
+    $(`#${this.id} .bar-counter`).html(`${percent}%`)
+    $(`#${this.id} .bar`).css('width', `${percent}%`)
+    if (percent === 100) {
+      setTimeout(() => $(`#${this.id} .bar-wrapper`).css('display', 'none'), 100)
+    }
   }
 }
 
