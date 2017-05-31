@@ -60,7 +60,7 @@ class Element {
     })
   }
 
-  setValues(result, animate = true) {
+  setValues(result, animate = true, time) {
     const that = this
     result.outputValues.forEach((value, index) => {
       jsPlumb.select({ source: that.id }).each((connection) => {
@@ -79,11 +79,11 @@ class Element {
         }
       })
     })
-    if (
-      animate &&
-      !(R.equals(this.inputValues, result.inputValues) && R.equals(this.outputValues, result.outputValues))
-    ) {
-      // this.animate()
+    if (animate) {
+      if (result.startTime !== -1) {
+        console.log((100 * (time - result.startTime)) / result.delay)
+        this.animate((100 * (time - result.startTime)) / result.delay)
+      }
     }
     this.inputValues = result.inputValues
     this.outputValues = result.outputValues
@@ -111,24 +111,26 @@ class Element {
     jsPlumb.removeFromDragSelection(this.id)
   }
 
-  animate() {
+  animate(time) {
     $(`#${this.id}`).append(`
       <div class="bar-wrapper">
         <div class="bar-counter"></div>
         <div class="bar"></div>
       </div>
     `)
-    let width = 1
-    const id = setInterval(() => {
-      if (width >= 100) {
-        setTimeout(() => $(`#${this.id} .bar-wrapper`).remove(), LATENCY / 10)
-        clearInterval(id)
-      } else {
-        width++
-        $(`#${this.id} .bar-counter`).html(`${width}%`)
-        $(`#${this.id} .bar`).css('width', `${width}%`)
-      }
-    }, LATENCY / 100)
+    $(`#${this.id} .bar-counter`).html(`${time}%`)
+    $(`#${this.id} .bar`).css('width', `${time}%`)
+    // let width = 1
+    // const id = setInterval(() => {
+    //   if (width >= 100) {
+    //     setTimeout(() => $(`#${this.id} .bar-wrapper`).remove(), LATENCY / 10)
+    //     clearInterval(id)
+    //   } else {
+    //     width++
+    //     $(`#${this.id} .bar-counter`).html(`${width}%`)
+    //     $(`#${this.id} .bar`).css('width', `${width}%`)
+    //   }
+    // }, LATENCY / 100)
   }
 }
 

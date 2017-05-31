@@ -219,16 +219,25 @@ export class CircuitPainter extends View {
     APIManager.calcCircuit(
       this.getJSON()
     ).then(data => {
-      that.applyResult(data)
+      const schema = R.sort((state1, state2) => state1.steps - state2.steps, data)
+      let id = 0
+      const interval = setInterval(() => {
+        if (id === schema.length) {
+          clearInterval(interval)
+        } else {
+          that.applyResult(schema[id])
+          id++
+        }
+      }, 50)
     }).catch(response => {
       that.errorModal.show(response)
     })
   }
 
-  applyResult(results) {
+  applyResult(schema) {
     const that = this
     R.forEachObjIndexed(elem => elem.reset(), this.elements)
-    results.forEach(result => that.elements[result.id].setValues(result))
+    schema.elements.forEach(element => that.elements[element.id].setValues(element, true, schema.time))
   }
 
   createElement($target, ui) {
