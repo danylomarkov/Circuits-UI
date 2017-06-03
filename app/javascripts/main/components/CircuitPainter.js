@@ -208,8 +208,7 @@ export class CircuitPainter extends View {
     result.elements = R.mapObjIndexed(elem => ({
       id: elem.id,
       type: elem.type,
-      value: elem.type === ElementType.OnePortGenerator ? elem.getValue() : undefined,
-      inputValues: elem.inputValues,
+      inputValues: elem.type === ElementType.OnePortGenerator ? [elem.getValue()] : elem.inputValues,
       delay: 50
     }), this.elements)
     return result
