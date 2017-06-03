@@ -208,6 +208,8 @@ export class Generator extends Element {
     // output
     this.addEndpoint('Right', 1, anchorRole.source)
 
+    this.inputValues = [false]
+
     // toggle
     $(`#${this.id}`).append('<label class="switch"><input type="checkbox"><div class="slider"></div></label>')
   }
@@ -216,6 +218,7 @@ export class Generator extends Element {
   }
   setValues(result) {
     super.setValues(result, false)
+    this.inputValues = this.outputValues
   }
 }
 
