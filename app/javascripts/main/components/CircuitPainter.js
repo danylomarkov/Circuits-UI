@@ -224,6 +224,7 @@ export class CircuitPainter extends View {
       id: elem.id,
       type: elem.type,
       inputValues: elem.type === ElementType.OnePortGenerator ? [elem.getValue()] : elem.inputValues,
+      outputValues: elem.outputValues,
       delay: elem.delay
     }), this.elements)
     return result

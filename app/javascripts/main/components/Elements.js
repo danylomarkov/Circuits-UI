@@ -63,17 +63,18 @@ class Element {
     const that = this
 
     this.inputValues = []
+    this.outputValues = []
 
     jsPlumb.getEndpoints(`${this.id}`).forEach(endpoint => {
       endpoint.setPaintStyle(endpointStyle.defaultStyle)
       if (endpoint.isTarget) {
         that.inputValues.push(false)
       }
+      if (endpoint.isSource) {
+        that.outputValues.push(false)
+      }
     })
 
-    if (this.type === ElementType.OnePortGenerator) {
-      this.inputValues = [false]
-    }
     if (this.type === ElementType.OnePortIndicator) {
       $(`#${this.id}`).removeClass('switched')
     }
@@ -231,7 +232,6 @@ export class Generator extends Element {
     // output
     this.addEndpoint('Right', 1, anchorRole.source)
 
-    this.inputValues = [false]
     this.delay = 0
 
     // toggle
