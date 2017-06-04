@@ -33,7 +33,8 @@ export class CircuitPainter extends View {
         'mousemove': 'onSchemeMouseMove',
         'mouseup': 'onSchemeMouseUp',
         'click .create-macro': 'onCreateMacro',
-        'click .run': 'onRun'
+        'click .run': 'onRun',
+        'click .reset': 'onReset'
       }
     })
     super(newOptions)
@@ -253,8 +254,11 @@ export class CircuitPainter extends View {
 
   applyResult(schema) {
     const that = this
-    R.forEachObjIndexed(elem => elem.reset(), this.elements)
     schema.elements.forEach(element => that.elements[element.id].setValues(element, true, schema.time))
+  }
+
+  onReset() {
+    R.forEachObjIndexed(elem => elem.reset(), this.elements)
   }
 
   createElement($target, ui) {

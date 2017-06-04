@@ -60,15 +60,33 @@ class Element {
   }
 
   reset() {
-    jsPlumb.getEndpoints(`${this.id}`).forEach((endpoint) => {
+    const that = this
+
+    this.inputValues = []
+
+    jsPlumb.getEndpoints(`${this.id}`).forEach(endpoint => {
       endpoint.setPaintStyle(endpointStyle.defaultStyle)
+      if (endpoint.isTarget) {
+        that.inputValues.push(false)
+      }
+    })
+
+    if (this.type === ElementType.OnePortGenerator) {
+      this.inputValues = [false]
+    }
+    if (this.type === ElementType.OnePortIndicator) {
+      $(`#${this.id}`).removeClass('switched')
+    }
+
+    jsPlumb.select({ source: this.id }).each(connection => {
+      connection.setPaintStyle(connectionStyle.defaultStyle)
     })
   }
 
   setValues(result, animate = true, time) {
     const that = this
     result.outputValues.forEach((value, index) => {
-      jsPlumb.select({ source: that.id }).each((connection) => {
+      jsPlumb.select({ source: that.id }).each(connection => {
         if (connection.getParameters().source.port === (index + 1)) {
           if (value) {
             connection.setPaintStyle(connectionStyle.activeStyle)
@@ -116,11 +134,11 @@ class Element {
   }
 
   animate(percent) {
-    $(`#${this.id} .bar-wrapper`).css('display', 'block')
-    $(`#${this.id} .bar-counter`).html(`${percent}%`)
+    $(`#${this.id} .bar-wrapper`).show()
+    $(`#${this.id} .bar-counter`).html(`${Math.round(percent)}%`)
     $(`#${this.id} .bar`).css('width', `${percent}%`)
-    if (percent === 100) {
-      setTimeout(() => $(`#${this.id} .bar-wrapper`).css('display', 'none'), 100)
+    if (percent >= 100) {
+      setTimeout(() => $(`#${this.id} .bar-wrapper`).hide(), 100)
     }
   }
 
@@ -214,6 +232,7 @@ export class Generator extends Element {
     this.addEndpoint('Right', 1, anchorRole.source)
 
     this.inputValues = [false]
+    this.delay = 0
 
     // toggle
     $(`#${this.id}`).append('<label class="switch"><input type="checkbox"><div class="slider"></div></label>')
@@ -238,6 +257,8 @@ export class Indicator extends Element {
     this.type = ElementType.OnePortIndicator
     // input
     this.addEndpoint('Left', 1, anchorRole.target)
+
+    this.delay = 0
   }
   setValues(result) {
     super.setValues(result, false)
@@ -259,6 +280,8 @@ export class Coupler extends Element {
 
     super(id)
     this.type = ElementType.CouplerElement
+
+    this.delay = 0
     // input
     this.addEndpoint('Left', 1, anchorRole.target)
     // output
@@ -398,6 +421,8 @@ export class SevenSegmentIndicator extends Element {
     this.addEndpoint([0, 0.38, -1, 0], 2, anchorRole.target)
     this.addEndpoint([0, 0.62, -1, 0], 3, anchorRole.target)
     this.addEndpoint([0, 0.86, -1, 0], 4, anchorRole.target)
+
+    this.delay = 0
   }
 
   setValues(result) {
