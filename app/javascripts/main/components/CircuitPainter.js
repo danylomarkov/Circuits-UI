@@ -12,11 +12,6 @@ import {
 import { ElementType } from '../../ElementType.js'
 import { APIManager } from '../../API/APIManager.js'
 
-const contextMenu = (type, position) =>
-  `<div class='context-menu' style="top: ${position.top}px; left: ${position.left}px">
-    <span>Delete ${type}</span>
-  </div>`
-
 const getElementId = event => event.currentTarget.getAttribute('id')
 
 const getPosition = (element) => ({
@@ -139,13 +134,32 @@ export class CircuitPainter extends View {
   }
 
   openElementContextMenu(e) {
-    $('body').append(contextMenu('element', { left: e.clientX, top: e.clientY }))
-    $('.context-menu').on('click', () => this.deleteElement(getElementId(e)))
+    const element = this.elements[getElementId(e)]
+    $('body').append(`
+      <div class='context-menu' style="top: ${e.clientY}px; left: ${e.clientX}px">
+        <div class="context-menu-item delete-element">
+          <span>Delete element</span>
+        </div>
+        <hr/>
+        <div class="context-menu-item no-hover">
+          <span>Delay:</span>
+          <input class="delay" type="number" value="${element.delay}" min="0">
+        </div>
+      </div>
+    `)
+    $('.context-menu .delete-element').on('click', () => this.deleteElement(element.id))
+    $('.context-menu .delay').on('blur', () => element.setDelay($('.delay').val()))
   }
 
   openConnectionContextMenu(e, connection) {
-    $('body').append(contextMenu('connection', { left: e.clientX, top: e.clientY }))
-    $('.context-menu').on('click', () => this.deleteConnection(connection))
+    $('body').append(`
+      <div class='context-menu' style="top: ${e.clientY}px; left: ${e.clientX}px">
+        <div class="context-menu-item delete-connection">
+          <span>Delete connection</span>
+        </div>
+      </div>
+    `)
+    $('.context-menu .delete-connection').on('click', () => this.deleteConnection(connection))
   }
 
   deleteElement(id) {
@@ -209,18 +223,20 @@ export class CircuitPainter extends View {
       id: elem.id,
       type: elem.type,
       inputValues: elem.type === ElementType.OnePortGenerator ? [elem.getValue()] : elem.inputValues,
-      delay: 50
+      delay: elem.delay
     }), this.elements)
     return result
   }
 
   calcCircuit() {
+    $('.spinner').show()
     const that = this
     APIManager.calcCircuit(
       this.getJSON()
     ).then(data => {
       const schema = R.sort((state1, state2) => state1.steps - state2.steps, data)
       let id = 0
+      $('.spinner').hide()
       const interval = setInterval(() => {
         if (id === schema.length) {
           clearInterval(interval)
@@ -230,6 +246,7 @@ export class CircuitPainter extends View {
         }
       }, 50)
     }).catch(response => {
+      $('.spinner').hide()
       that.errorModal.show(response)
     })
   }

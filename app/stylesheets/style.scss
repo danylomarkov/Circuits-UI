@@ -370,16 +370,35 @@ html, body {
 
 .context-menu {
   position: fixed;
-  padding: 5px;
   border: solid 1px #dfdfdf;
   box-shadow: 1px 1px 2px #cfcfcf;
   z-index: 999;
   background-color: #fff;
-  font-size: 12px;
-  cursor: pointer;
-  &:hover {
-    color: #fff;
-    background-color: #222;
+
+  hr {
+    margin: 0;
+  }
+
+  .context-menu-item {
+    padding: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+
+    input {
+      width: 40px;
+    }
+
+    &.no-hover {
+      cursor: auto;
+    }
+
+    &:not(.no-hover):hover {
+      background-color: #222;
+      span {
+        color: #fff;
+      }
+    }
   }
 }
 
@@ -445,4 +464,23 @@ html, body {
 
 .test-request {
   width: 100%;
+}
+
+.spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+
+  &>div {
+    top: 40%;
+  }
+
+  .sk-child {
+    background-color: #55D456;
+  }
 }

@@ -28,6 +28,7 @@ const anchorRole = {
 class Element {
   constructor(id) {
     this.id = id
+    this.delay = 50
     this.inputValues = []
     this.outputValues = []
     this.selected = false
@@ -121,6 +122,10 @@ class Element {
     if (percent === 100) {
       setTimeout(() => $(`#${this.id} .bar-wrapper`).css('display', 'none'), 100)
     }
+  }
+
+  setDelay(delay) {
+    this.delay = parseInt(delay, 10)
   }
 }
 
@@ -236,8 +241,8 @@ export class Indicator extends Element {
   }
   setValues(result) {
     super.setValues(result, false)
-    if (result.outputValues.length) {
-      $(`#${this.id}`).toggleClass('switched', result.outputValues[0])
+    if (result.inputValues.length) {
+      $(`#${this.id}`).toggleClass('switched', result.inputValues[0])
     } else {
       $(`#${this.id}`).removeClass('switched')
     }
