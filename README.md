@@ -4,12 +4,12 @@ __Circuits UI__ is a logic circuits simulator web app for educational purposes. 
 ## Our Story
 This project was started as a rethinking of [BUMMEL](https://github.com/Uko/BUMMEL) project and we really appreciate the work these guys have done. We are using some of their ideas and their approach to circuits simulation.
 
-__Circuits UI__ is using the client-server model. The backend part is written on [Pharo](http://pharo.org/) language, which is based on Smalltalk. The source code for the backend part could be found in [SmalltalkHub](http://smalltalkhub.com/#!/~BUMMELteam/BUMMEL).
+__Circuits UI__ is using the client-server model. The backend part is written on [Pharo](http://pharo.org/) language, which is based on Smalltalk. The source code for the backend part could be found in [SmalltalkHub](http://bit.ly/2stplpr).
 
 ## Project Setup
 ### Backend part
 1. Download [Pharo 5.0](http://pharo.org/web/download)
-2. Open Pharo, enter Monticello Browser (Ctrl + O + P) and download [our repository](http://smalltalkhub.com/#!/~BUMMELteam/BUMMEL)
+2. Open Pharo, enter Monticello Browser (Ctrl + O + P) and download [our repository](http://bit.ly/2stplpr)
 3. Install NeoJSON
 ```
 Gofer it
