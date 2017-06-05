@@ -79,6 +79,10 @@ class Element {
       $(`#${this.id}`).removeClass('switched')
     }
 
+    if (this.type === ElementType.WordGenerator) {
+      this.inputValues = undefined
+    }
+
     jsPlumb.select({ source: this.id }).each(connection => {
       connection.setPaintStyle(connectionStyle.defaultStyle)
     })
@@ -446,9 +450,10 @@ export class WordGenerator extends Element {
     this.type = ElementType.WordGenerator
     // input
     R.times(index => {
-      this.addEndpoint([1, (index + 0.5) * (1 / 8), 1, 0], index + 1, anchorRole.source)
+      this.addEndpoint([1, (index + 0.5) * (1 / 8), 1, 0], 8 - index, anchorRole.source)
     }, 8)
     this.delay = 0
+    this.inputValues = undefined
   }
 
   setValues(result) {
