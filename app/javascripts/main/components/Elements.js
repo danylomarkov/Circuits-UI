@@ -446,7 +446,7 @@ export class WordGenerator extends Element {
     this.type = ElementType.WordGenerator
     // input
     R.times(index => {
-      this.addEndpoint([1, (index + 0.5) * (1 / 8), 1, 0], index, anchorRole.source)
+      this.addEndpoint([1, (index + 0.5) * (1 / 8), 1, 0], index + 1, anchorRole.source)
     }, 8)
     this.delay = 0
   }
@@ -475,11 +475,11 @@ export class MacroElement extends Element {
     this.name = name
     // input
     inPorts.forEach((port, index) => {
-      this.addEndpoint([0, (index + 0.5) * (1 / inPorts.length), -1, 0], index, anchorRole.target)
+      this.addEndpoint([0, (index + 0.5) * (1 / inPorts.length), -1, 0], index + 1, anchorRole.target)
     })
     // output
     outPorts.forEach((port, index) => {
-      this.addEndpoint([1, (index + 0.5) * (1 / outPorts.length), 1, 0], index, anchorRole.source)
+      this.addEndpoint([1, (index + 0.5) * (1 / outPorts.length), 1, 0], index + 1, anchorRole.source)
     })
   }
 }
