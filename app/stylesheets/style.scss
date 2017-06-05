@@ -210,6 +210,14 @@ html, body {
   width: 70px;
 }
 
+.content .element.el-word-gen, .add-el.el-word-gen {
+  width: 100px;
+  height: 120px;
+  span {
+    text-align: center;
+  }
+}
+
 .content .element.el-ind-seven, .add-el.el-ind-seven {
   height: auto;
   width: auto;

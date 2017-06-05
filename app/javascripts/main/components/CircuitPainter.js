@@ -7,7 +7,7 @@ import {
   Generator, Indicator, Coupler,
   NAndElement, NOrElement, XNorElement,
   RSTrigger, EncoderElement, DecoderElement,
-  SevenSegmentIndicator, MacroElement
+  SevenSegmentIndicator, WordGenerator, MacroElement
 } from './Elements.js'
 import { ElementType } from '../../ElementType.js'
 import { APIManager } from '../../API/APIManager.js'
@@ -323,6 +323,10 @@ export class CircuitPainter extends View {
       }
       case 'ind-seven-drag': {
         this.elements[id] = new SevenSegmentIndicator(id, position)
+        break
+      }
+      case 'word-gen-drag': {
+        this.elements[id] = new WordGenerator(id, position)
         break
       }
       default: {

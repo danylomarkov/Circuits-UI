@@ -434,6 +434,32 @@ export class SevenSegmentIndicator extends Element {
   }
 }
 
+export class WordGenerator extends Element {
+  constructor(id, position) {
+    $('.circuit').append(
+      $('<div><span>Word<br />Generator</span></div>').addClass('element el-word-gen').attr('id', id)
+        .css('left', position.left)
+        .css('top', position.top)
+    )
+
+    super(id)
+    this.type = ElementType.WordGenerator
+    // input
+    R.times(index => {
+      this.addEndpoint([1, (index + 0.5) * (1 / 8), 1, 0], index, anchorRole.source)
+    }, 8)
+    this.delay = 0
+  }
+
+  setValues(result) {
+    super.setValues(result, false)
+    const segments = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+    result.outputValues.forEach((value, index) => {
+      $(`#${this.id} .ind-seven-${segments[index]}`).toggleClass('switched', value)
+    })
+  }
+}
+
 export class MacroElement extends Element {
   constructor(id, position, name, inPorts, outPorts) {
     $('.circuit').append(

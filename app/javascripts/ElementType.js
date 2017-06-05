@@ -12,5 +12,6 @@ export const ElementType = {
   EncoderElement: 'EncoderElement',
   DecoderElement: 'DecoderElement',
   RSTrigger: 'RSTrigger',
-  SevenSegmentIndicator: 'SevenSegmentIndicator'
+  SevenSegmentIndicator: 'SevenSegmentIndicator',
+  WordGenerator: 'WordGenerator'
 }
